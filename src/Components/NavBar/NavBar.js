@@ -1,11 +1,12 @@
 /** @format */
 
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Stack } from '@mui/material';
-import { Home, Login, AccountCircle } from '@mui/icons-material';
+import { Stack, Menu, MenuItem, IconButton } from '@mui/material';
+import { Home, Menu as MenuIcon, Login } from '@mui/icons-material';
 import ApartmentIcon from '@mui/icons-material/Apartment';
+import { NavLink as NavLinkBuilder } from '../../Contexts/NavLink';
 
 const NavContainer = styled('div')`
    display: flex;
@@ -15,52 +16,95 @@ const NavContainer = styled('div')`
    height: 60px;
    padding: 10px;
    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-   margin-bottom: 40px;
+   margin: 25px;
+
+   @media screen and (max-width: 600px) {
+      flex-direction: column;
+      align-items: flex-start;
+      height: auto;
+      padding: 10px 0;
+   }
 `;
 
 const NavLinks = styled(Stack)`
    display: inline;
    align-items: center;
-   justify-content: space-between;
-   width: fixed;
+   margin: 40px;
+   padding: 20px;
+
+   @media screen and (max-width: 600px) {
+      display: none;
+   }
 `;
 
 const NavLink = styled(Link)`
    color: #333;
    font-weight: bold;
-   text-decoration: none;
-   margin: 20px;
-   &:hover {
-      color: #666;
+   padding: 0 10px;
+   margin-right: 25px;
+
+   @media screen and (max-width: 600px) {
+      display: block;
+      padding: 10px;
    }
 `;
 
-const NavIcon = styled(({ icon, ...props }) => {
-   const Icon = icon;
-   return <Icon {...props} />;
-})`
-   margin-right: 5px;
+const MenuButton = styled(IconButton)`
+   display: none;
+
+   @media screen and (max-width: 600px) {
+      display: block;
+   }
 `;
 
-const NavBar = () => {
+function NavBar() {
+   const [anchorEl, setAnchorEl] = useState(null);
+
+   const NavLinkList = [
+      new NavLinkBuilder(<Home />, 'Home', '/'),
+      new NavLinkBuilder(<ApartmentIcon />, 'Pg', '/pg'),
+      new NavLinkBuilder(<Login />, 'Login', '/login'),
+   ];
+
+   const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+   };
+
+   const handleClose = () => {
+      setAnchorEl(null);
+   };
+
    return (
       <NavContainer>
          <NavLinks>
-            <NavLink to="/">
-               <NavIcon icon={Home} />
-               Home
-            </NavLink>
-            <NavLink to="/pg">
-               <NavIcon icon={ApartmentIcon} />
-               Pg
-            </NavLink>
-            <NavLink to="/login">
-               <NavIcon icon={Login} />
-               Login
-            </NavLink>
+            {NavLinkList.map((link, index) => {
+               return (
+                  <NavLink key={index} to={`${link.route}`}>
+                     {link.icon} {link.value}
+                  </NavLink>
+               );
+            })}
          </NavLinks>
+         <MenuButton onClick={handleClick}>
+            <MenuIcon />
+         </MenuButton>
+         <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+         >
+            {NavLinkList.map((link, index) => {
+               return (
+                  <MenuItem onClick={handleClose}>
+                     <NavLink key={index} to={`${link.route}`}>
+                        {link.icon} {link.value}
+                     </NavLink>
+                  </MenuItem>
+               );
+            })}
+         </Menu>
       </NavContainer>
    );
-};
+}
 
 export default NavBar;
