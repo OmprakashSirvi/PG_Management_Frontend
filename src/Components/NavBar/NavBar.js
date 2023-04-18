@@ -42,7 +42,7 @@ const NavLink = styled(Link)`
    font-weight: bold;
    padding: 0 10px;
    margin-right: 25px;
-
+   textdecoration: 'none';
    @media screen and (max-width: 600px) {
       display: block;
       padding: 10px;
@@ -79,7 +79,11 @@ function NavBar() {
          <NavLinks>
             {NavLinkList.map((link, index) => {
                return (
-                  <NavLink key={index} to={`${link.route}`}>
+                  <NavLink
+                     key={index}
+                     to={`${link.route}`}
+                     style={{ textDecoration: 'none' }}
+                  >
                      {link.icon} {link.value}
                   </NavLink>
                );
@@ -96,7 +100,11 @@ function NavBar() {
             {NavLinkList.map((link, index) => {
                return (
                   <MenuItem onClick={handleClose}>
-                     <NavLink key={index} to={`${link.route}`}>
+                     <NavLink
+                        key={index}
+                        to={`${link.route}`}
+                        style={{ textDecoration: 'none' }}
+                     >
                         {link.icon} {link.value}
                      </NavLink>
                   </MenuItem>
