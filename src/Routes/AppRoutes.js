@@ -5,7 +5,6 @@ import { Route, Routes } from 'react-router-dom';
 import Home from '../Pages/Home/Home';
 import Login from '../Pages/Login/Login';
 import Pg from '../Components/PG/Pg';
-import PrivateRoute from '../utils/ProtectedRoutes';
 
 const AppRoutes = () => {
    return (

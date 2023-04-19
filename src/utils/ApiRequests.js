@@ -12,4 +12,14 @@ const loginUser = async (credentials) => {
    }
 };
 
-export { loginUser };
+const getAllPgs = async () => {
+   try {
+      const res = await axios.get(`${apiUrl}/pg/`);
+      return res;
+   } catch (err) {
+      return err;
+      console.log(err);
+   }
+};
+
+export { loginUser, getAllPgs };

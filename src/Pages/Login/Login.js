@@ -8,6 +8,7 @@ import { css } from '@emotion/react';
 
 import { loginUser } from '../../utils/ApiRequests';
 import Alert from '../../Components/Alert/Alert';
+import { useNavigate } from 'react-router';
 
 const Form = styled('form')(css`
    display: flex;
@@ -30,11 +31,18 @@ const SubmitButton = styled(Button)(css`
 
 const Login = () => {
    const [formData, setFormData] = useState({ email: '', password: '' });
+   const [alertMess, setAlertMess] = useState();
+   const [showAlert, setShowAlert] = useState(false);
    const [error, setError] = useState(null);
+
+   const navigate = useNavigate();
 
    const handleInputChange = (event) => {
       const { name, value } = event.target;
       setFormData({ ...formData, [name]: value });
+      setShowAlert(false);
+      setAlertMess({});
+      setError(null);
    };
 
    const handleSubmit = (event) => {
@@ -48,9 +56,30 @@ const Login = () => {
             }
 
             localStorage.setItem('jwt', res.data.jwt);
+
+            setShowAlert(true);
+            setAlertMess({
+               type: 'success',
+               message: 'log in success',
+            });
+
             setError(null);
+
+            setTimeout(() => {
+               navigate('/');
+            }, 1000);
+
+            // navigate('/');
+            // navigating to home
          } catch (err) {
-            setError('Invalid Email or password');
+            console.log(err);
+
+            setAlertMess({
+               type: 'error',
+               message: 'something went wrong',
+            });
+            setShowAlert(true);
+            setError(err);
          }
       };
       login();
@@ -58,7 +87,6 @@ const Login = () => {
 
    return (
       <div>
-         {error !== null && <Alert type="error" message={error} />}
          <Form onSubmit={handleSubmit}>
             <Input
                type="email"
@@ -78,6 +106,9 @@ const Login = () => {
                Submit
             </SubmitButton>
          </Form>
+         {showAlert && (
+            <Alert type={alertMess.type} message={alertMess.message} />
+         )}
       </div>
    );
 };
