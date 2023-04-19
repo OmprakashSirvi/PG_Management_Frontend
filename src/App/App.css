@@ -1,0 +1,11 @@
+/** @format */
+
+.App {
+   text-align: center;
+}
+.App-header {
+   background-color: #333;
+   height: 60px;
+   padding: 10px;
+   color: white;
+}
