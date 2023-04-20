@@ -17,9 +17,18 @@ const getAllPgs = async () => {
       const res = await axios.get(`${apiUrl}/pg/`);
       return res;
    } catch (err) {
-      return err;
-      console.log(err);
+      return false;
    }
 };
 
-export { loginUser, getAllPgs };
+const getPgById = async (id) => {
+   try {
+      const res = await axios.get(`${apiUrl}/pg/${id}`);
+      console.log(res);
+      return res;
+   } catch (err) {
+      return false;
+   }
+};
+
+export { loginUser, getAllPgs, getPgById };
