@@ -24,7 +24,7 @@ const PgDetails = () => {
          setLoading(false);
       };
       getPgDetails();
-   }, []);
+   });
 
    if (error) {
       return <div>{error}</div>;
