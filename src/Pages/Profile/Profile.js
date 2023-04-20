@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@mui/material';
 
 import { UserContextInfoList } from '../../Contexts/UserContextInfo';
-import Usercard from '../../Components/UserCard/Usercard';
+import Usercard from '../../Components/UserCard/UserCard';
 
 import Alert from '../../Components/Alert/Alert';
 import { useNavigate } from 'react-router-dom';
@@ -41,6 +41,7 @@ const Profile = () => {
             })}
          </div>
          <Button
+            style={{ backgroundColor: '#f44336' }}
             className="logout-button"
             variant="contained"
             onClick={handleLogout}

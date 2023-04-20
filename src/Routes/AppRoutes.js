@@ -8,6 +8,7 @@ import Login from '../Pages/Login/Login';
 import Pg from '../Pages/PG/Pg';
 import PgDetails from '../Pages/PgDetails/PgDetails';
 import Profile from '../Pages/Profile/Profile';
+import Rooms from '../Pages/Rooms/Rooms';
 
 const AppRoutes = () => {
    return (
@@ -20,6 +21,7 @@ const AppRoutes = () => {
 
             {/**Protected routes */}
             <Route path="/profile" element={<Profile />} />
+            <Route path="/pg/:id/room" element={<Rooms />} />
          </Routes>
       </div>
    );
