@@ -9,6 +9,7 @@ import { css } from '@emotion/react';
 import { loginUser } from '../../utils/ApiRequests';
 import Alert from '../../Components/Alert/Alert';
 import { useNavigate } from 'react-router';
+import { CheckLogin } from '../../utils/CheckLogin';
 
 const Form = styled('form')(css`
    display: flex;
@@ -64,6 +65,8 @@ const Login = () => {
             });
 
             setError(null);
+
+            CheckLogin();
 
             setTimeout(() => {
                navigate('/');

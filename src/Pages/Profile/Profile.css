@@ -1,0 +1,23 @@
+/** @format */
+
+.logout-button {
+   background-color: #f44336;
+   color: white;
+   margin-top: 20px;
+   padding: 10px 20px;
+   border-radius: 5px;
+   font-size: 1.2rem;
+   cursor: pointer;
+   transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+   background-color: #d53330;
+   transform: scale(1.1);
+}
+.user-card {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin-bottom: 20px;
+}

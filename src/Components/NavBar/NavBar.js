@@ -15,7 +15,7 @@ const NavContainer = styled('div')`
    display: flex;
    justify-content: space-between;
    align-items: center;
-   background-color: #f0f0f0;
+   background-color: #ffe6e8;
    height: 60px;
    padding: 10px;
    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -56,6 +56,10 @@ const NavLink = styled(Link)`
    padding: 0 10px;
    margin-right: 25px;
    textdecoration: 'none';
+   &:hover: {
+      boxShadow: '0px 0px 16px rgba(0, 0, 0, 0.3)',
+      transform: 'scale(1.1)',
+   };
    @media screen and (max-width: 600px) {
       display: block;
       padding: 10px;

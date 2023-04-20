@@ -8,7 +8,7 @@ import './PgCard.css';
 
 const PgCard = ({ item }) => {
    return (
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{ maxWidth: 400, minWidth: 300, backgroundColor: '#e6f2ff' }}>
          <CardMedia
             component="img"
             height="140"
