@@ -12,4 +12,22 @@ const loginUser = async (credentials) => {
    }
 };
 
-export { loginUser };
+const getAllPgs = async () => {
+   try {
+      const res = await axios.get(`${apiUrl}/pg/`);
+      return res;
+   } catch (err) {
+      return false;
+   }
+};
+
+const getPgById = async (id) => {
+   try {
+      const res = await axios.get(`${apiUrl}/pg/${id}`);
+      return res;
+   } catch (err) {
+      return false;
+   }
+};
+
+export { loginUser, getAllPgs, getPgById };

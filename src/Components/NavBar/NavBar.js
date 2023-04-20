@@ -2,10 +2,13 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import { styled } from '@mui/material/styles';
-import { Stack, Menu, MenuItem, IconButton } from '@mui/material';
+import { Stack, Menu, MenuItem, IconButton, Avatar } from '@mui/material';
 import { Home, Menu as MenuIcon, Login } from '@mui/icons-material';
 import ApartmentIcon from '@mui/icons-material/Apartment';
+import PersonIcon from '@mui/icons-material/Person';
+
 import { NavLink as NavLinkBuilder } from '../../Contexts/NavLink';
 
 const NavContainer = styled('div')`
@@ -25,6 +28,16 @@ const NavContainer = styled('div')`
       padding: 10px 0;
    }
 `;
+
+const StyledAvatar = styled(Avatar)({
+   backgroundColor: '#F5F5F5',
+   color: '#333',
+   width: '20px',
+   height: '20px',
+   display: 'inline',
+   alignContent: 'center',
+   alignItems: 'center',
+});
 
 const NavLinks = styled(Stack)`
    display: inline;
@@ -57,13 +70,31 @@ const MenuButton = styled(IconButton)`
    }
 `;
 
-function NavBar() {
+function NavBar({ isLoggedIn }) {
    const [anchorEl, setAnchorEl] = useState(null);
+   const [imageErr, setImageErr] = useState(false);
 
+   const handleImageError = () => {
+      setImageErr(true);
+   };
    const NavLinkList = [
       new NavLinkBuilder(<Home />, 'Home', '/'),
       new NavLinkBuilder(<ApartmentIcon />, 'Pg', '/pg'),
-      new NavLinkBuilder(<Login />, 'Login', '/login'),
+      isLoggedIn
+         ? new NavLinkBuilder(
+              (
+                 // TODO set the profile image of the user here
+                 <StyledAvatar
+                    onError={handleImageError}
+                    src="/user-profile.jpg"
+                 >
+                    {imageErr && <PersonIcon />}
+                 </StyledAvatar>
+              ),
+              '',
+              '/profile'
+           )
+         : new NavLinkBuilder(<Login />, 'Login', '/login'),
    ];
 
    const handleClick = (event) => {
