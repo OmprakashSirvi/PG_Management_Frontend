@@ -14,7 +14,6 @@ import './Profile.css';
 
 // If you are here then you are probably already logged in
 const Profile = () => {
-   console.log(getCurrUserRole());
    const [showAlert, setShowAlert] = useState(false);
 
    const navigate = useNavigate();
