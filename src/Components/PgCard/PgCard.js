@@ -4,6 +4,8 @@ import React from 'react';
 import { Card, CardMedia, CardContent, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+import { getCurrUserRole } from '../../Contexts/CurrUserRole';
+
 import './PgCard.css';
 
 const PgCard = ({ item }) => {
@@ -35,6 +37,18 @@ const PgCard = ({ item }) => {
             <Typography variant="body2" color="text.secondary">
                Minimum Rent: {item.minRent}
             </Typography>
+
+            {getCurrUserRole() === 'ROLE_OWNER' && (
+               <Typography variant="body2" color="text.secondary">
+                  Approved stauts : {item.approved}
+               </Typography>
+            )}
+
+            {getCurrUserRole() === 'ROLE_OWNER' && (
+               <Link to={`/pg/${item.id}/edit`}>
+                  <button>Edit Details</button>
+               </Link>
+            )}
             <Link to={`/pg/${item.id}`}>
                <button>View Details</button>
             </Link>

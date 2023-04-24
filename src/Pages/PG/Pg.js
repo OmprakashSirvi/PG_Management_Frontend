@@ -7,6 +7,8 @@ import { getAllPgs } from '../../utils/ApiRequests';
 import PgCard from '../../Components/PgCard/PgCard';
 
 import './Pg.css';
+import { getCurrUserRole } from '../../Contexts/CurrUserRole';
+import { Link } from 'react-router-dom';
 
 const Pg = () => {
    const [pgs, setPgs] = useState([]);
@@ -42,10 +44,17 @@ const Pg = () => {
    }
 
    return (
-      <div className="grid-container">
-         {pgs.map((pg, index) => {
-            return <PgCard key={index} item={pg} />;
-         })}
+      <div>
+         {getCurrUserRole() === 'ROLE_OWNER' && (
+            <Link to={'/add-pg'}>
+               <button>Add Pg</button>
+            </Link>
+         )}
+         <div className="grid-container">
+            {pgs.map((pg, index) => {
+               return <PgCard key={index} item={pg} />;
+            })}
+         </div>
       </div>
    );
 };

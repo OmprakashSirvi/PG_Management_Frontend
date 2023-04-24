@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@mui/material';
 
 import { UserContextInfoList } from '../../Contexts/UserContextInfo';
-import Usercard from '../../Components/UserCard/Usercard';
+import Usercard from '../../Components/UserCard/UserCard';
 
 import Alert from '../../Components/Alert/Alert';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,6 @@ import './Profile.css';
 
 // If you are here then you are probably already logged in
 const Profile = () => {
-   console.log(getCurrUserRole());
    const [showAlert, setShowAlert] = useState(false);
 
    const navigate = useNavigate();
@@ -41,6 +40,7 @@ const Profile = () => {
             })}
          </div>
          <Button
+            style={{ backgroundColor: '#f44336' }}
             className="logout-button"
             variant="contained"
             onClick={handleLogout}
