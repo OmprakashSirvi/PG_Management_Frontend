@@ -1,6 +1,5 @@
 /** @format */
-
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { styled } from '@mui/material/styles';
@@ -44,6 +43,10 @@ const NavLinks = styled(Stack)`
    align-items: center;
    margin: 40px;
    padding: 20px;
+
+   &:hover: {
+      boxshadow: '0px 0px 16px rgba(0, 0, 0, 0.3)';
+   }
 
    @media screen and (max-width: 600px) {
       display: none;
@@ -98,7 +101,11 @@ function NavBar({ isLoggedIn }) {
               '',
               '/profile'
            )
-         : new NavLinkBuilder(<Login />, 'Login', '/login'),
+         : new NavLinkBuilder(
+              <Login style={{ marginRight: 'auto' }} />,
+              'Login',
+              '/login'
+           ),
    ];
 
    const handleClick = (event) => {
@@ -134,9 +141,8 @@ function NavBar({ isLoggedIn }) {
          >
             {NavLinkList.map((link, index) => {
                return (
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem key={index} onClick={handleClose}>
                      <NavLink
-                        key={index}
                         to={`${link.route}`}
                         style={{ textDecoration: 'none' }}
                      >

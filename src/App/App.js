@@ -1,6 +1,6 @@
 /** @format */
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import NavBar from '../Components/NavBar/NavBar';
 import AppRoutes from '../Routes/AppRoutes';
