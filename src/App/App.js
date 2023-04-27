@@ -2,12 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 
-import NavBar from '../Components/NavBar/NavBar';
 import AppRoutes from '../Routes/AppRoutes';
 
 import './App.css';
 import { useLocation } from 'react-router-dom';
 import { CheckLogin } from '../utils/CheckLogin';
+import AppNavbar from '../Components/AppNavbar/AppNavbar';
 
 function App() {
    const [login, setLogin] = useState(false);
@@ -19,8 +19,8 @@ function App() {
 
    return (
       <div className="App">
-         <NavBar isLoggedIn={login} />
-         <AppRoutes />
+         <AppNavbar login={login} />
+         <AppRoutes className="routes" />
       </div>
    );
 }

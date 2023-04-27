@@ -45,6 +45,7 @@ const Pg = () => {
 
    return (
       <div>
+         <h1>List of PGs</h1>
          {getCurrUserRole() === 'ROLE_OWNER' && (
             <Link to={'/add-pg'}>
                <button>Add Pg</button>
@@ -52,7 +53,7 @@ const Pg = () => {
          )}
          <div className="grid-container">
             {pgs.map((pg, index) => {
-               return <PgCard key={index} item={pg} />;
+               return <PgCard key={index} pg={pg} />;
             })}
          </div>
       </div>

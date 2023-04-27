@@ -8,7 +8,7 @@ import Usercard from '../../Components/UserCard/UserCard';
 
 import Alert from '../../Components/Alert/Alert';
 import { useNavigate } from 'react-router-dom';
-import { getCurrUserRole, setCurrUserRole } from '../../Contexts/CurrUserRole';
+import { setCurrUserRole } from '../../Contexts/CurrUserRole';
 
 import './Profile.css';
 
