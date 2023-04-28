@@ -15,11 +15,12 @@ import {
    ChevronDownIcon,
    Cog6ToothIcon,
    LifebuoyIcon,
-   PowerIcon,
    BellIcon,
 } from '@heroicons/react/24/outline';
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import ConfirmDialog from '../../ConfirmDialog/ConfirmDialog';
 
 const profileMenuItems = [
    {
@@ -38,9 +39,9 @@ const profileMenuItems = [
       path: '/notifications',
    },
    {
-      label: 'Sign Out',
-      icon: PowerIcon,
-      path: '/logout',
+      label: 'Change Role',
+      icon: LifebuoyIcon,
+      path: '/select-role',
    },
 ];
 

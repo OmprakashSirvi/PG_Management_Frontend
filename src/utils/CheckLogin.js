@@ -10,6 +10,7 @@ export function CheckLogin() {
       try {
          const data = await getMe();
          if (data !== null) {
+            localStorage.setItem('currRole', data[0].role);
             return true;
          }
       } catch (err) {
