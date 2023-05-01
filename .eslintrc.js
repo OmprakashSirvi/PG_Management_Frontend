@@ -5,7 +5,7 @@ module.exports = {
       browser: true,
       es2021: true,
    },
-   extends: 'plugin:react/recommended',
+   extends: ['eslint:recommended', 'plugin:react/recommended'],
    overrides: [],
    parserOptions: {
       ecmaVersion: 'latest',
@@ -13,12 +13,12 @@ module.exports = {
    },
    plugins: ['react'],
    rules: {
-      'react/prop-types': 'off',
-   },
-
-   settings: {
-      react: {
-         version: 'detect',
-      },
+      'no-undef': 1,
+      'no-unused-vars': 1,
+      'react/no-unused-prop-types': 1,
+      'react/no-unused-class-component-methods': 1,
+      'promise/always-return': 0,
+      'react/prop-types': 1,
+      'no-console': 1,
    },
 };

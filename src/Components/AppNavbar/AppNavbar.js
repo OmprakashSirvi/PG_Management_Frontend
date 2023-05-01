@@ -15,7 +15,7 @@ import ProfileMenu from './ProfileMenu/ProfileMenu';
 import NavList from './NavList/NavList';
 
 import './AppNavbar.css';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 export default function AppNavbar({ login }) {
    const [isNavOpen, setIsNavOpen] = React.useState(false);
@@ -32,7 +32,15 @@ export default function AppNavbar({ login }) {
       <Navbar className="sticky inset-0 z-10 h-max max-w-full rounded-lg py-2 px-4 lg:px-8 lg:py-4 app-navbar">
          <div className="relative mx-auto flex items-center text-blue-gray-900">
             <Typography className="mr-4 ml-2 cursor-pointer py-1.5 font-medium">
-               <Link to={'/'}> Paying Guest Management</Link>
+               <NavLink
+                  to={''}
+                  className={({ isActive }) => {
+                     return isActive ? 'underline' : undefined;
+                  }}
+               >
+                  {' '}
+                  Paying Guest Management
+               </NavLink>
             </Typography>
             <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
                <NavList />
@@ -49,7 +57,15 @@ export default function AppNavbar({ login }) {
             </IconButton>
             {!login && (
                <div className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto">
-                  <Link to={'/login'}>Login</Link>
+                  <NavLink
+                     to={'login'}
+                     className={({ isActive }) => {
+                        return isActive ? 'hidden' : undefined;
+                     }}
+                     end
+                  >
+                     Login
+                  </NavLink>
                </div>
             )}
             {login && <ProfileMenu />}

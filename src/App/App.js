@@ -1,32 +1,40 @@
 /** @format */
 
-import React, { useEffect, useState } from 'react';
-
-import AppRoutes from '../Routes/AppRoutes';
+import React from 'react';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import './App.css';
-import { useLocation } from 'react-router-dom';
-import AppNavbar from '../Components/AppNavbar/AppNavbar';
-import { useSelector } from 'react-redux';
+
+import Pg from '../Pages/PG/Pg';
+import Home from '../Pages/Home/Home';
+import RootLayout from '../Pages/Root/RootLayout';
+import ErrorPage from '../Pages/ErrorPage/ErrorPage';
+import PgDetails from '../Pages/PgDetails/PgDetails';
+
+const router = createBrowserRouter([
+   {
+      path: '/',
+      element: <RootLayout />,
+      errorElement: <ErrorPage />,
+      children: [
+         { index: true, element: <Home /> },
+         {
+            path: 'pg',
+            // TODO add seperate error page for Pg routes
+            errorElement: <ErrorPage />,
+            children: [
+               { index: true, element: <Pg /> },
+               { path: ':id', element: <PgDetails /> },
+            ],
+         },
+      ],
+   },
+]);
 
 function App() {
-   const auth = useSelector((state) => state.auth.user);
-
-   const [login, setLogin] = useState(false);
-   const location = useLocation();
-
-   useEffect(() => {
-      if (auth.status === 'Success') {
-         setLogin(true);
-      } else {
-         setLogin(false);
-      }
-   }, [location.pathname]);
-
    return (
       <div className="App">
-         <AppNavbar login={login} />
-         <AppRoutes className="routes" />
+         <RouterProvider router={router} />
       </div>
    );
 }

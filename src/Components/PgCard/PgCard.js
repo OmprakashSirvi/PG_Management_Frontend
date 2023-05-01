@@ -25,7 +25,7 @@ const PgCard = ({ pg }) => {
             <Typography variant="h5" className="mb-2">
                {pg.name}
             </Typography>
-            <Typography>{pg.foodType}</Typography>
+            <Typography>{pg.foodType || 'all foods'}</Typography>
             <Typography>Gender : {pg.gender}</Typography>
             <Link to={`/pg/${pg.id}`}>
                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-5">
@@ -33,7 +33,7 @@ const PgCard = ({ pg }) => {
                </button>
             </Link>
             {getCurrUserRole() === 'ROLE_OWNER' && (
-               <Link to={`/edit-pg/${pg.id}`}>
+               <Link to={pg.id}>
                   <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-5">
                      Edit Details
                   </button>

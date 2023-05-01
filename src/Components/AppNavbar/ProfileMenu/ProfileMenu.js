@@ -20,28 +20,26 @@ import {
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import ConfirmDialog from '../../ConfirmDialog/ConfirmDialog';
-
 const profileMenuItems = [
    {
       label: 'My Profile',
       icon: UserCircleIcon,
-      path: '/profile',
+      path: 'profile',
    },
    {
       label: 'Edit Profile',
       icon: Cog6ToothIcon,
-      path: '/edit-profile',
+      path: 'edit-profile',
    },
    {
       label: 'Notifications',
       icon: BellIcon,
-      path: '/notifications',
+      path: 'notifications',
    },
    {
       label: 'Change Role',
       icon: LifebuoyIcon,
-      path: '/select-role',
+      path: 'select-role',
    },
 ];
 
@@ -91,14 +89,16 @@ const ProfileMenu = () => {
                         }`,
                         strokeWidth: 2,
                      })}
-                     <Typography
-                        as="span"
-                        variant="small"
-                        className="font-normal"
-                        color={isLastItem ? 'red' : 'inherit'}
-                     >
-                        <Link to={path}> {label}</Link>
-                     </Typography>
+                     <Link to={path}>
+                        <Typography
+                           as="span"
+                           variant="small"
+                           className="font-normal"
+                           color={isLastItem ? 'red' : 'inherit'}
+                        >
+                           {label}
+                        </Typography>
+                     </Link>
                   </MenuItem>
                );
             })}
