@@ -12,6 +12,7 @@ import Rooms from '../Pages/Rooms/Rooms';
 import EditPg from '../Pages/EditPg/EditPg';
 import AddPg from '../Pages/AddPg/AddPg';
 import AddRoom from '../Pages/AddRoom/AddRoom';
+import ProtectedRoutes from '../utils/ProtectedRoutes';
 
 const AppRoutes = () => {
    return (
@@ -23,11 +24,13 @@ const AppRoutes = () => {
             <Route path="/pg/:id" element={<PgDetails />} />
 
             {/**Protected routes */}
-            <Route path="/add-pg" element={<AddPg />} />
-            <Route path="/pg/:id/edit" element={<EditPg />} />
-            <Route path="/pg/:id/add-room" element={<AddRoom />} />
-            <Route path="/pg/:id/room" element={<Rooms />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route element={<ProtectedRoutes />}>
+               <Route path="/add-pg" element={<AddPg />} />
+               <Route path="/pg/:id/edit" element={<EditPg />} />
+               <Route path="/pg/:id/add-room" element={<AddRoom />} />
+               <Route path="/pg/:id/room" element={<Rooms />} />
+               <Route path="/profile" element={<Profile />} />
+            </Route>
          </Routes>
       </div>
    );

@@ -24,6 +24,7 @@ const navListItems = [
 ];
 
 const NavList = () => {
+   console.log('test');
    return (
       <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
          {navListItems.map(({ label, icon, path }, key) => (

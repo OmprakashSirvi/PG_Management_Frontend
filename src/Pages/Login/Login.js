@@ -6,10 +6,12 @@ import { styled } from '@mui/material/styles';
 import { TextField, Button } from '@mui/material';
 import { css } from '@emotion/react';
 
+import { getUser, login } from '../../Redux/Slice/authSlice';
 import { loginUser } from '../../utils/ApiRequests';
 import Alert from '../../Components/Alert/Alert';
 import { useNavigate } from 'react-router';
 import { CheckLogin } from '../../utils/CheckLogin';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Form = styled('form')(css`
    display: flex;
@@ -31,10 +33,14 @@ const SubmitButton = styled(Button)(css`
 `);
 
 const Login = () => {
-   const [formData, setFormData] = useState({ email: '', password: '' });
+   const [formData, setFormData] = useState({
+      email: 'ownermail1@gmail.com',
+      password: 'owner1234',
+   });
    const [alertMess, setAlertMess] = useState();
    const [showAlert, setShowAlert] = useState(false);
-   const [error, setError] = useState(null);
+
+   const dispatch = useDispatch();
 
    const navigate = useNavigate();
 
@@ -43,49 +49,22 @@ const Login = () => {
       setFormData({ ...formData, [name]: value });
       setShowAlert(false);
       setAlertMess({});
-      setError(null);
    };
 
    const handleSubmit = (event) => {
       event.preventDefault();
-      const login = async () => {
-         try {
-            const res = await loginUser(formData);
 
-            if (res.data === null) {
-               throw new Error();
-            }
-
-            localStorage.setItem('jwt', res.data.jwt);
-
-            setShowAlert(true);
-            setAlertMess({
-               type: 'success',
-               message: 'log in success',
-            });
-
-            setError(null);
-
-            CheckLogin();
-
-            setTimeout(() => {
-               navigate('/');
-            }, 1000);
-
-            // navigate('/');
-            // navigating to home
-         } catch (err) {
-            console.log(err);
-
-            setAlertMess({
-               type: 'error',
-               message: 'something went wrong',
-            });
-            setShowAlert(true);
-            setError(err);
-         }
-      };
-      login();
+      dispatch(login(formData));
+      // .then((result) => {
+      //    // console.log(result.payload.jwt);
+      //    if (result.payload.jwt === undefined) {
+      //       console.log('error');
+      //       setAlertMess({ type: 'error', message: 'invalid credentials' });
+      //       setShowAlert(true);
+      //       return;
+      //    }
+      //    dispatch(getUser(result.payload.jwt));
+      // });
    };
 
    return (
@@ -96,6 +75,7 @@ const Login = () => {
                name="email"
                label="Email"
                variant="outlined"
+               value={formData.email}
                onChange={handleInputChange}
             />
             <Input
@@ -103,6 +83,7 @@ const Login = () => {
                name="password"
                label="Password"
                variant="outlined"
+               value={formData.password}
                onChange={handleInputChange}
             />
             <SubmitButton type="submit" variant="contained">

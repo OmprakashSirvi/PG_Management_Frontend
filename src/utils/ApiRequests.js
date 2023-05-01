@@ -1,14 +1,18 @@
 /** @format */
 import axios from 'axios';
 import { UserContextInfoList } from '../Contexts/UserContextInfo';
+import { useSelector } from 'react-redux';
 
 const apiUrl = `http://localhost:8080/api/v1`;
 
 const loginUser = async (credentials) => {
    try {
+      console.log('login is calling');
       const res = await axios.post(`${apiUrl}/user/login`, credentials);
-      return res;
+      console.log('res', res.data);
+      return res.data;
    } catch (err) {
+      console.log(err);
       return err;
    }
 };
@@ -31,23 +35,18 @@ const getPgById = async (id) => {
    }
 };
 
-const getMe = async () => {
+const getMe = async (jwt) => {
    try {
-      const token = `Bearer ${localStorage.getItem('jwt')}`;
+      const token = `Bearer ${jwt}`;
+
+      console.log(token);
+
       const res = await axios.get(`${apiUrl}/user/getMe`, {
          headers: { Authorization: token },
       });
 
-      UserContextInfoList.length = 0;
-
-      res.data.forEach((ele) => {
-         UserContextInfoList.push(ele);
-      });
-
       return res.data;
    } catch (err) {
-      console.log(err);
-      localStorage.removeItem('jwt');
       return false;
    }
 };

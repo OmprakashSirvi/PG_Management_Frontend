@@ -12,11 +12,20 @@ import '@fontsource/roboto/700.css';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@material-tailwind/react';
 
+import { store, persistedStore } from './Redux/store';
+import { Provider } from 'react-redux';
+
+import { PersistGate } from 'redux-persist/integration/react';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
    <ThemeProvider>
       <BrowserRouter>
-         <App />
+         <Provider store={store}>
+            <PersistGate persistor={persistedStore}>
+               <App />
+            </PersistGate>
+         </Provider>
       </BrowserRouter>
    </ThemeProvider>
 );

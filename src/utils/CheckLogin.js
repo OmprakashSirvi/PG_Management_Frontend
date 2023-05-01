@@ -1,10 +1,14 @@
 /** @format */
+import { useSelector } from 'react-redux';
 import { getMe } from './ApiRequests';
 
 export function CheckLogin() {
-   if (localStorage.getItem('jwt') === null) {
-      return false;
-   }
+   const auth = useSelector((state) => state.auth.user);
+
+   if (auth.status)
+      if (localStorage.getItem('jwt') === null) {
+         return false;
+      }
 
    const verifyUser = async () => {
       try {

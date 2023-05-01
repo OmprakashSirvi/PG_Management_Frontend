@@ -6,15 +6,21 @@ import AppRoutes from '../Routes/AppRoutes';
 
 import './App.css';
 import { useLocation } from 'react-router-dom';
-import { CheckLogin } from '../utils/CheckLogin';
 import AppNavbar from '../Components/AppNavbar/AppNavbar';
+import { useSelector } from 'react-redux';
 
 function App() {
+   const auth = useSelector((state) => state.auth.user);
+
    const [login, setLogin] = useState(false);
    const location = useLocation();
 
    useEffect(() => {
-      setLogin(CheckLogin());
+      if (auth.status === 'Success') {
+         setLogin(true);
+      } else {
+         setLogin(false);
+      }
    }, [location.pathname]);
 
    return (

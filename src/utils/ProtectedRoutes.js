@@ -1,25 +1,15 @@
 /** @format */
 
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Outlet } from 'react-router';
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-   const isAuthenticated = localStorage.getItem('jwt') !== null;
-
+const ProtectedRoutes = () => {
+   // TODO add authenticated login here and direct if the user have required role
    return (
-      <Route
-         {...rest}
-         render={(props) =>
-            isAuthenticated ? (
-               <Component {...props} />
-            ) : (
-               <Navigate
-                  to={{ pathname: '/login', state: { from: props.location } }}
-               />
-            )
-         }
-      />
+      <div>
+         <Outlet />
+      </div>
    );
 };
 
-export default PrivateRoute;
+export default ProtectedRoutes;
