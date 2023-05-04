@@ -16,10 +16,16 @@ import { getCurrUserRole } from '../../Contexts/CurrUserRole';
 import './PgCard.css';
 
 const PgCard = ({ pg }) => {
+   const apiUrl = process.env.REACT_APP_API_URL;
+
    return (
       <Card className="w-96">
          <CardHeader color="blue" className="relative h-56">
-            <img src="" alt="pg-image" className="h-full w-full" />
+            <img
+               src={`${apiUrl}/api/v1/images/pg/${pg.image}`}
+               alt="pg-image"
+               className="h-full w-full"
+            />
          </CardHeader>
          <CardBody className="text-center">
             <Typography variant="h5" className="mb-2">

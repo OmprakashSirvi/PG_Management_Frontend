@@ -5,11 +5,22 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import './App.css';
 
-import Pg from '../Pages/PG/Pg';
+import Pg, { loader as pgLoader } from '../Pages/PG/Pg';
 import Home from '../Pages/Home/Home';
 import RootLayout from '../Pages/Root/RootLayout';
 import ErrorPage from '../Pages/ErrorPage/ErrorPage';
-import PgDetails from '../Pages/PgDetails/PgDetails';
+
+import PgDetails, {
+   loader as pgDetailsLoader,
+   action as pgDeleteAction,
+} from '../Pages/PgDetails/PgDetails';
+
+import EditPg from '../Pages/EditPg/EditPg';
+import AddRoom from '../Pages/AddRoom/AddRoom';
+
+import AddPg from '../Pages/AddPg/AddPg';
+import Login, { action as loginAction } from '../Pages/Login/Login';
+import { action as manipulatePg } from '../Components/PgForm/PgForm';
 
 const router = createBrowserRouter([
    {
@@ -18,15 +29,35 @@ const router = createBrowserRouter([
       errorElement: <ErrorPage />,
       children: [
          { index: true, element: <Home /> },
+         { path: 'login', element: <Login />, action: loginAction },
          {
             path: 'pg',
             // TODO add seperate error page for Pg routes
-            errorElement: <ErrorPage />,
             children: [
-               { index: true, element: <Pg /> },
-               { path: ':id', element: <PgDetails /> },
+               {
+                  index: true,
+                  element: <Pg />,
+                  loader: pgLoader,
+               },
+               {
+                  id: 'pg-detail',
+                  path: ':id',
+                  loader: pgDetailsLoader,
+                  children: [
+                     {
+                        index: true,
+                        element: <PgDetails />,
+                        action: pgDeleteAction,
+                     },
+                     { path: 'edit', element: <EditPg /> },
+                     { path: 'add-room', element: <AddRoom /> },
+                  ],
+               },
+               { path: 'add-pg', element: <AddPg />, action: manipulatePg },
             ],
          },
+
+         {},
       ],
    },
 ]);

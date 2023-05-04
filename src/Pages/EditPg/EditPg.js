@@ -1,63 +1,27 @@
 /** @format */
 
 import React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { useParams } from 'react-router';
-import { getPgById } from '../../utils/ApiRequests';
 import { Link } from 'react-router-dom';
+import { useRouteLoaderData } from 'react-router-dom';
 
 const EditPg = () => {
-   const [formData, setFormData] = useState({
-      name: '',
-      gender: '',
-      address: '',
-      city: '',
-      description: '',
-      pgType: '',
-      amenities: '',
-      foodType: '',
-   });
-
-   const [error, setError] = useState(null);
-   const { id } = useParams();
-
-   useEffect(() => {
-      const pgById = async () => {
-         try {
-            const data = await getPgById(id);
-         } catch (err) {
-            setError(err);
-         }
-      };
-
-      pgById();
-   }, []);
-
-   const handleSubmit = (event) => {
-      event.preventDefault();
-   };
-
-   const handleChange = (event) => {
-      const { name, value } = event.target;
-      setFormData({ ...formData, [name]: value });
-   };
+   const pgDetails = useRouteLoaderData('pg-detail');
 
    return (
       <div>
-         <Link to={`/pg/${id}/add-room`}>
+         <Link to={`add-room`}>
             <button>Add Room</button>
          </Link>
-         <form onSubmit={handleSubmit}>
-            Name :{' '}
-            <input type="text" placeholder={''} onChange={handleChange} />
-            Gender : <input type="text" onChange={handleChange} />
-            Address : <input type="text" onChange={handleChange} />
-            City : <input type="text" onChange={handleChange} />
-            Description : <input type="text" onChange={handleChange} />
-            Pg TYpe : <input type="text" onChange={handleChange} />
-            Amenities : <input type="text" onChange={handleChange} />
-            Food Type : <input type="text" onChange={handleChange} />
+         <form>
+            Name : <input type="text" defaultValue={pgDetails.name} />
+            Gender : <input type="text" defaultValue={pgDetails.gender} />
+            Address : <input type="text" defaultValue={pgDetails.address} />
+            City : <input type="text" defaultValue={pgDetails.city} />
+            Description :{' '}
+            <input type="text" defaultValue={pgDetails.description} />
+            Pg TYpe : <input type="text" defaultValue={pgDetails.pgType} />
+            Amenities : <input type="text" defaultValue={pgDetails.amenities} />
+            Food Type : <input type="text" defaultValue={pgDetails.foodType} />
             <button type="submit">Save changes</button>
             <button>Cancel</button>
          </form>

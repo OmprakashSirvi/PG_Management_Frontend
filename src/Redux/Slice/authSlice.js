@@ -32,7 +32,6 @@ const authSlice = createSlice({
          state.isError = true;
       });
       builder.addCase(login.fulfilled, (state, action) => {
-         console.log(JSON.stringify(action.payload.jwt));
          state.jwt = JSON.stringify(action.payload.jwt);
          state.isLoading = false;
          state.isError = false;

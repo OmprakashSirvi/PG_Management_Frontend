@@ -1,76 +1,34 @@
 /** @format */
-
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-
-import { getPgById } from '../../utils/ApiRequests';
-import { CheckLogin } from '../../utils/CheckLogin';
-import Alert from '../../Components/Alert/Alert';
+import React from 'react';
+import { deleltePg, getPgById } from '../../utils/ApiRequests';
+import {
+   json,
+   redirect,
+   useNavigate,
+   useRouteLoaderData,
+   useSubmit,
+} from 'react-router-dom';
 
 const PgDetails = () => {
-   const [pgDetails, setPgDetails] = useState({});
-   const [login, setLogin] = useState(false);
+   const apiUrl = process.env.REACT_APP_API_URL;
+   const submit = useSubmit();
+   const pgDetails = useRouteLoaderData('pg-detail');
 
-   const [error, setError] = useState(null);
-   const [loading, setLoading] = useState(true);
-   const [showAlert, setShowAlert] = useState(false);
+   const handleBookPg = () => {};
+   const handleDeletePg = () => {
+      const confirm = window.confirm('Are you sure ?');
 
-   const { id } = useParams();
-   const location = useLocation();
-   const navigate = useNavigate();
+      if (!confirm) return;
 
-   const handleBookPg = (event) => {
-      event.preventDefault();
-      if (!login) {
-         setShowAlert(true);
-         setTimeout(() => {
-            navigate('/login');
-         }, 1000);
-      }
-
-      navigate(`/pg/${pgDetails.id}/room`);
+      submit(null, { method: 'DELETE' });
    };
-
-   useEffect(() => {
-      const getPgDetails = async () => {
-         const res = await getPgById(id);
-
-         if (!res) {
-            setError('Something went wrong');
-            return;
-         }
-         const check = await CheckLogin();
-
-         setLogin(check);
-         setPgDetails(res.data);
-         setLoading(false);
-      };
-      getPgDetails();
-   }, [location.pathname]);
-
-   if (error) {
-      return <div>{error}</div>;
-   }
-
-   if (loading) {
-      return <div>Loading...</div>;
-   }
-
-   if (pgDetails === null) {
-      return <div>No Data to view here..</div>;
-   }
 
    return (
       <div>
-         {showAlert && (
-            <Alert
-               type={'error'}
-               message={
-                  'You need to be logged in to access this, Redirecting you...'
-               }
-            />
-         )}
-         <img src="" alt="pg-image" />
+         <img
+            src={`${apiUrl}/api/v1/images/pg/${pgDetails.image}`}
+            alt="pg-image"
+         />
          <div>
             <h1>Pg Details</h1>
             <h3>Name : {pgDetails.name}</h3>
@@ -95,13 +53,39 @@ const PgDetails = () => {
             <p>Owner email : {pgDetails.owner.email}</p>
          </div>
          <div>
-            {!login && (
-               <div style={{ opacity: 0.5 }}>You need to be logged in </div>
-            )}
             <button onClick={handleBookPg}>Book Pg</button>
          </div>
+         <button onClick={handleDeletePg}>Delete Pg</button>
       </div>
    );
 };
+
+export async function loader({ params }) {
+   const id = params.id;
+   const res = await getPgById(id);
+
+   if (!res) {
+      throw json({ message: 'could not fetch pg' }, { status: 500 });
+   } else {
+      const resData = await res.json();
+      return resData.data;
+   }
+}
+
+export async function action({ params }) {
+   const id = params.id;
+   const res = await deleltePg(id);
+
+   console.log(res);
+   if (!res)
+      throw json({
+         message: 'something wrong happend when deleting pg',
+         status: 500,
+      });
+
+   if (!res.ok) throw json({ message: 'Could not delete pg', status: 500 });
+
+   return redirect('/');
+}
 
 export default PgDetails;
