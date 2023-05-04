@@ -68,6 +68,27 @@ const createNewPg = async (pg) => {
    }
 };
 
+const editPg = async (pg, id) => {
+   try {
+      const jwt = localStorage.getItem('jwt');
+
+      const token = `Bearer ${jwt}`;
+
+      const res = await fetch(`${apiUrl}/owner/pg/${id}`, {
+         method: 'PATCH',
+         headers: {
+            'Content-Type': 'Application/json',
+            Authorization: token,
+         },
+         body: JSON.stringify(pg),
+      });
+
+      return res;
+   } catch (err) {
+      return false;
+   }
+};
+
 const deleltePg = async (id) => {
    const jwt = localStorage.getItem('jwt');
 
@@ -86,4 +107,12 @@ const deleltePg = async (id) => {
    }
 };
 
-export { loginUser, getAllPgs, getPgById, getMe, createNewPg, deleltePg };
+export {
+   loginUser,
+   getAllPgs,
+   getPgById,
+   getMe,
+   createNewPg,
+   deleltePg,
+   editPg,
+};

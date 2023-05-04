@@ -1,34 +1,38 @@
 /** @format */
 
-import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { Await, defer, useLoaderData, json, Link } from 'react-router-dom';
 
 import { getAllPgs } from '../../utils/ApiRequests';
-import PgCard from '../../Components/PgCard/PgCard';
 
 import './Pg.css';
-import { Link, json } from 'react-router-dom';
+import PgCard from '../../Components/PgCard/PgCard';
 
 const Pg = () => {
-   const pgs = useLoaderData();
+   const { pgs } = useLoaderData();
 
    return (
-      <div>
+      <React.Fragment>
          <h1>List of PGs</h1>
          <Link to={'add-pg'}>
             <button>Add Pg</button>
          </Link>
-
-         <div className="grid-container">
-            {pgs.map((pg, index) => {
-               return <PgCard key={index} pg={pg} />;
-            })}
-         </div>
-      </div>
+         <Suspense fallback={<p>loading Pgs..</p>}>
+            <Await resolve={pgs}>
+               {(loadedPgs) => (
+                  <div className="grid-container">
+                     {loadedPgs.map((pg, index) => {
+                        return <PgCard key={index} pg={pg} />;
+                     })}
+                  </div>
+               )}
+            </Await>
+         </Suspense>
+      </React.Fragment>
    );
 };
 
-export async function loader() {
+async function loadPgs() {
    const res = await getAllPgs();
 
    if (!res) {
@@ -37,6 +41,10 @@ export async function loader() {
       const resData = await res.json();
       return resData.data;
    }
+}
+
+export function loader() {
+   return defer({ pgs: loadPgs() });
 }
 
 export default Pg;

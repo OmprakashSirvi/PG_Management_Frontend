@@ -9,6 +9,8 @@ const ErrorPage = () => {
    let title = 'Ann error occured';
    let message = 'something went wrong';
 
+   console.log('error', error);
+
    if (error.data) {
       if (error.status === 404) {
          title = 'Not found!';

@@ -49,7 +49,11 @@ const router = createBrowserRouter([
                         element: <PgDetails />,
                         action: pgDeleteAction,
                      },
-                     { path: 'edit', element: <EditPg /> },
+                     {
+                        path: 'edit',
+                        element: <EditPg />,
+                        action: manipulatePg,
+                     },
                      { path: 'add-room', element: <AddRoom /> },
                   ],
                },

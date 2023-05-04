@@ -2,6 +2,7 @@
 import React from 'react';
 import { deleltePg, getPgById } from '../../utils/ApiRequests';
 import {
+   Link,
    json,
    redirect,
    useNavigate,
@@ -52,9 +53,8 @@ const PgDetails = () => {
             <p>Owner mobile number : {pgDetails.owner.mobileNumber}</p>
             <p>Owner email : {pgDetails.owner.email}</p>
          </div>
-         <div>
-            <button onClick={handleBookPg}>Book Pg</button>
-         </div>
+         <button onClick={handleBookPg}>Book Pg</button>
+         <Link to="edit">Edit Pg</Link>
          <button onClick={handleDeletePg}>Delete Pg</button>
       </div>
    );
