@@ -17,7 +17,7 @@ import NavList from './NavList/NavList';
 import './AppNavbar.css';
 import { Link, NavLink } from 'react-router-dom';
 
-export default function AppNavbar({ login }) {
+export default function AppNavbar({ login, role }) {
    const [isNavOpen, setIsNavOpen] = React.useState(false);
    const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
 
@@ -43,7 +43,7 @@ export default function AppNavbar({ login }) {
                </NavLink>
             </Typography>
             <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
-               <NavList />
+               <NavList role={role} />
             </div>
 
             <IconButton
@@ -68,7 +68,7 @@ export default function AppNavbar({ login }) {
                   </NavLink>
                </div>
             )}
-            {login && <ProfileMenu />}
+            {login && <ProfileMenu role={role} />}
          </div>
          <MobileNav open={isNavOpen} className="overflow-scroll">
             <NavList />

@@ -16,11 +16,12 @@ import {
    Cog6ToothIcon,
    LifebuoyIcon,
    BellIcon,
+   HomeModernIcon,
 } from '@heroicons/react/24/outline';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const profileMenuItems = [
+let profileMenuItems = [
    {
       label: 'My Profile',
       icon: UserCircleIcon,
@@ -43,10 +44,39 @@ const profileMenuItems = [
    },
 ];
 
-const ProfileMenu = () => {
+const ProfileMenu = ({ role }) => {
    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
    const closeMenu = () => setIsMenuOpen(false);
 
+   if (role === 'ROLE_OWNER') {
+      profileMenuItems = [
+         {
+            label: 'My Profile',
+            icon: UserCircleIcon,
+            path: 'profile',
+         },
+         {
+            label: 'My Pgs',
+            icon: HomeModernIcon,
+            path: 'pg?mode=owner',
+         },
+         {
+            label: 'Edit Profile',
+            icon: Cog6ToothIcon,
+            path: 'edit-profile',
+         },
+         {
+            label: 'Notifications',
+            icon: BellIcon,
+            path: 'notifications',
+         },
+         {
+            label: 'Change Role',
+            icon: LifebuoyIcon,
+            path: 'select-role',
+         },
+      ];
+   }
    return (
       <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
          <MenuHandler>

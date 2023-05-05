@@ -11,10 +11,15 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { ThemeProvider } from '@material-tailwind/react';
 
+import { Provider } from 'react-redux';
+import { store } from './Redux/store';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
    <ThemeProvider>
-      <App />
+      <Provider store={store}>
+         <App />
+      </Provider>
    </ThemeProvider>
 );
 

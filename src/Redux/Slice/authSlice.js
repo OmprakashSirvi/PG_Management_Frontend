@@ -1,56 +1,42 @@
 /** @format */
+import { createSlice } from '@reduxjs/toolkit';
+import { getUserInfo } from '../thunks/getUserInfo';
 
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getMe, loginUser } from '../../utils/ApiRequests';
-
-const initialState = {
-   jwt: '',
-   user: {},
-   currRole: '',
-   isLoading: false,
-   isError: false,
-};
-
-export const login = createAsyncThunk('auth/login', loginUser);
-export const getUser = createAsyncThunk('auth/getUser', getMe);
-
-const authSlice = createSlice({
+export const authSlice = createSlice({
    name: 'auth',
-   initialState,
+   initialState: {
+      jwt: '',
+      userInfo: [],
+      selectedUserMode: { role: '', email: '' },
+      isLoading: false,
+      error: null,
+   },
    reducers: {
-      logout: (state) => {
-         state.user = {};
+      setAuth(state, action) {
+         state.jwt = action.payload.jwt;
+         state.authTime = Date.now();
+      },
+      setRole(state, action) {
+         state.selectedUserMode.role = action.payload;
+      },
+      removeAuth(state) {
+         state.jwt = '';
+         state.selectedUserMode = { role: '', email: '' };
+         state.userInfo = [];
       },
    },
-   extraReducers: (builder) => {
-      builder.addCase(login.pending, (state) => {
+   extraReducers(builder) {
+      builder.addCase(getUserInfo.pending, (state) => {
          state.isLoading = true;
       });
-      builder.addCase(login.rejected, (state) => {
-         state.jwt = '';
+      builder.addCase(getUserInfo.fulfilled, (state, action) => {
          state.isLoading = false;
-         state.isError = true;
+         state.userInfo = action.payload;
+         state.selectedUserMode.email = action.payload[0].email;
       });
-      builder.addCase(login.fulfilled, (state, action) => {
-         state.jwt = JSON.stringify(action.payload.jwt);
+      builder.addCase(getUserInfo.rejected, (state, action) => {
          state.isLoading = false;
-         state.isError = false;
-      });
-      builder.addCase(getUser.pending, (state) => {
-         state.isLoading = true;
-      });
-      builder.addCase(getUser.rejected, (state) => {
-         state.user = {};
-         state.isLoading = false;
-         state.isError = true;
-      });
-      builder.addCase(getUser.fulfilled, (state, action) => {
-         state.user = action.payload;
-         state.isLoading = false;
-         state.isError = false;
+         state.error = action.error;
       });
    },
 });
-
-export const { logout } = authSlice.actions;
-export default authSlice.reducer;

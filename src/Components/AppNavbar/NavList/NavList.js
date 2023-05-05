@@ -6,12 +6,13 @@ import { Typography, MenuItem } from '@material-tailwind/react';
 import {
    HomeModernIcon,
    InformationCircleIcon,
+   UsersIcon,
 } from '@heroicons/react/24/outline';
 
 import { NavLink } from 'react-router-dom';
 
 // nav list component
-const navListItems = [
+let navListItems = [
    {
       label: 'PG',
       icon: HomeModernIcon,
@@ -24,7 +25,26 @@ const navListItems = [
    },
 ];
 
-const NavList = () => {
+const NavList = ({ role }) => {
+   if (role === 'ROLE_OWNER') {
+      navListItems = [
+         {
+            label: 'PG',
+            icon: HomeModernIcon,
+            path: 'pg',
+         },
+         {
+            label: 'Residents',
+            icon: UsersIcon,
+            path: 'residents',
+         },
+         {
+            label: 'About Us',
+            icon: InformationCircleIcon,
+            path: 'about-us',
+         },
+      ];
+   }
    return (
       <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
          {navListItems.map(({ label, icon, path }, key) => (

@@ -1,5 +1,6 @@
 /** @format */
 import axios from 'axios';
+import { store } from '../Redux/store';
 
 const apiUrl = `http://localhost:8080/api/v1`;
 
@@ -22,6 +23,19 @@ const getAllPgs = async () => {
    }
 };
 
+const getPgForOwner = async () => {
+   const jwt = store.getState().auth.jwt;
+   const token = 'Bearer ' + jwt;
+   try {
+      const res = await fetch(`${apiUrl}/owner/pg`, {
+         headers: { Authorization: token },
+      });
+      return res;
+   } catch (err) {
+      return false;
+   }
+};
+
 const getPgById = async (id) => {
    try {
       const res = await fetch(`${apiUrl}/pg/${id}`);
@@ -31,17 +45,15 @@ const getPgById = async (id) => {
    }
 };
 
-const getMe = async () => {
+const getMe = async (jwt) => {
    try {
-      const jwt = localStorage.getItem('jwt');
-
       const token = `Bearer ${jwt}`;
 
       const res = await axios.get(`${apiUrl}/user/getMe`, {
          headers: { Authorization: token },
       });
 
-      return res.data;
+      return res;
    } catch (err) {
       return false;
    }
@@ -115,4 +127,5 @@ export {
    createNewPg,
    deleltePg,
    editPg,
+   getPgForOwner,
 };

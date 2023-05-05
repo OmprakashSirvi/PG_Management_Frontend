@@ -1,21 +1,14 @@
 /** @format */
 
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './Slice/authSlice';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 
-const persistConfig = {
-   key: 'pgmanage',
-   storage,
-};
-
-const persistAuthReducers = persistReducer(persistConfig, authReducer);
+import { authSlice } from './Slice/authSlice';
 
 export const store = configureStore({
    reducer: {
-      auth: persistAuthReducers,
+      auth: authSlice.reducer,
    },
 });
 
-export const persistedStore = persistStore(store);
+export const { setAuth, setRole, removeAuth } = authSlice.actions;
+export * from './thunks/getUserInfo';

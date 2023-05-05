@@ -76,7 +76,6 @@ export async function action({ params }) {
    const id = params.id;
    const res = await deleltePg(id);
 
-   console.log(res);
    if (!res)
       throw json({
          message: 'something wrong happend when deleting pg',

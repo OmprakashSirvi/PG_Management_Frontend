@@ -80,7 +80,6 @@ const PgForm = ({ method, event }) => {
 
 export async function action({ request, params }) {
    const method = request.method;
-   console.log(method);
    const data = await request.formData();
    const newPg = {
       name: data.get('name'),

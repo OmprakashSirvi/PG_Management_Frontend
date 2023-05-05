@@ -1,29 +1,53 @@
 /** @format */
 
-import React, { useState } from 'react';
-import { styled } from '@mui/material/styles';
-import { Button, Card, CardContent, Typography } from '@mui/material';
-import { getCurrUserRole, setCurrUserRole } from '../../Contexts/CurrUserRole';
-import Alert from '../Alert/Alert';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Button, Typography } from '@material-tailwind/react';
+import ExpandablePanel from '../ExpandablePanel/ExpandablePanel';
+import { useDispatch } from 'react-redux';
+import { setRole } from '../../Redux/store';
 
-const Usercard = ({ user }) => {
-   const navigate = useNavigate();
-   const [showAlert, setShowAlert] = useState(false);
+import { CheckCircleIcon } from '@heroicons/react/24/outline';
 
-   const handleSelect = () => {
-      setTimeout(() => {
-         navigate('/');
-      }, 1000);
-      setCurrUserRole(user.role);
-      setShowAlert(true);
-   };
+const Usercard = ({ user, selectedUserRole }) => {
+   const dispatch = useDispatch();
+   const showOwnerProperties = user.role === 'ROLE_OWNER' ? true : false;
 
-   if (showAlert) {
-      return <Alert type={'success'} message={`Role is set to ${user.role}`} />;
+   function handleActivateRole() {
+      dispatch(setRole(user.role));
+      window.alert('Role changed to : ' + user.role);
    }
 
-   return <div></div>;
+   const header = (
+      <>
+         <CheckCircleIcon />
+         {user.role === 'ROLE_OWNER'
+            ? 'Owner'
+            : user.role === 'ROLE_ADIMN'
+            ? 'Admin'
+            : 'Guest'}
+         {user.role === selectedUserRole && <CheckCircleIcon />}
+      </>
+   );
+
+   const content = (
+      <>
+         {showOwnerProperties && (
+            <>
+               <Typography variant="h3">List of Pgs</Typography>
+               <ul>
+                  {user.pgNames.map((ele, index) => (
+                     <li key={index}>{`${index} : ${ele}`}</li>
+                  ))}
+               </ul>
+            </>
+         )}
+         <Button color="blue" className="m-4" onClick={handleActivateRole}>
+            Activate
+         </Button>
+      </>
+   );
+
+   return <ExpandablePanel header={header}>{content}</ExpandablePanel>;
 };
 
 export default Usercard;

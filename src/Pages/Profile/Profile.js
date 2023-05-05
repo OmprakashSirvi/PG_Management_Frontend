@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button } from '@mui/material';
 import {
    Card,
@@ -8,74 +8,54 @@ import {
    CardBody,
    CardFooter,
    Typography,
-   Tooltip,
 } from '@material-tailwind/react';
 
-import {
-   UserContextInfo,
-   UserContextInfoList,
-} from '../../Contexts/UserContextInfo';
-
-import Alert from '../../Components/Alert/Alert';
-import { useNavigate } from 'react-router-dom';
-import { getCurrUserRole, setCurrUserRole } from '../../Contexts/CurrUserRole';
-
+import { useSelector } from 'react-redux';
 import './Profile.css';
 import ConfirmDialog from '../../Components/AlertDialog/AlertDialog';
+import { Link } from 'react-router-dom';
 
 // If you are here then you are probably already logged in
 const Profile = () => {
-   const [showAlert, setShowAlert] = useState(false);
-   const [showDialog, setShowDialog] = useState(false);
-
-   const [userInfo, setUserInfo] = useState({
-      firstName: '',
-      lastName: '',
-      email: '',
-      mobileNumber: '',
-      role: '',
+   const auth = useSelector((state) => {
+      return state.auth;
    });
-   const navigate = useNavigate();
 
-   useEffect(() => {
-      UserContextInfoList.map((ele) => {
-         if (ele.role === localStorage.getItem('currRole')) {
-            setUserInfo({ ...ele });
-         }
-      });
-   }, []);
+   let userInfo = { firstName: '', lastName: '', role: '', mobileNumber: '' };
 
-   const handleLogoutClick = () => {
-      setShowDialog(true);
-   };
-
-   const handleLogout = () => {
-      localStorage.removeItem('jwt');
-      setTimeout(() => {
-         setCurrUserRole('');
-         navigate('/');
-      }, 1000);
-      setShowAlert(true);
-   };
-
-   const handleCancel = () => {
-      setShowDialog(false);
-   };
-
-   if (showAlert) {
-      return <Alert type={'warning'} message={'logged out of the system'} />;
+   if (auth.jwt === '') {
+      return <>Not logged in</>;
    }
 
-   if (showDialog) {
+   if (auth.userInfo.length !== 0) {
+      userInfo = auth.userInfo.filter(
+         (user) => user.role === auth.selectedUserMode.role
+      )[0];
+   }
+
+   if (userInfo === undefined) {
       return (
-         <ConfirmDialog
-            title={'logout'}
-            message={'Do you want to logout?'}
-            onConfirm={handleLogout}
-            onCancel={handleCancel}
-         />
+         <>
+            <p>No user profile information to display here </p>
+            <p>
+               You probably did not select your role you can do it{' '}
+               <Link to="/select-role" className="underline text-blue-200">
+                  here
+               </Link>
+            </p>
+         </>
       );
    }
+   // if (showDialog) {
+   //    return (
+   //       <ConfirmDialog
+   //          title={'logout'}
+   //          message={'Do you want to logout?'}
+   //          onConfirm={handleLogout}
+   //          onCancel={handleCancel}
+   //       />
+   //    );
+   // }
 
    return (
       <div>
@@ -109,10 +89,10 @@ const Profile = () => {
             })}
          </div> */}
          <Button
-            style={{ backgroundColor: '#f44336' }}
+            style={{ backgroundColor: '#f44336', margin: '20px' }}
             className="logout-button"
             variant="contained"
-            onClick={handleLogoutClick}
+            // onClick={handleLogoutClick}
          >
             Logout
          </Button>
