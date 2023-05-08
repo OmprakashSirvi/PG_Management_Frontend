@@ -20,6 +20,7 @@ import Login, { action as loginAction } from '../Pages/Login/Login';
 import { action as manipulatePg } from '../Components/PgForm/PgForm';
 import RoleSelection from '../Pages/RoleSelection/RoleSelection';
 import Profile from '../Pages/Profile/Profile';
+import Register from '../Pages/register/Register';
 
 export const AppRouter = createBrowserRouter([
    {
@@ -29,6 +30,7 @@ export const AppRouter = createBrowserRouter([
       children: [
          { index: true, element: <Home /> },
          { path: 'login', element: <Login />, action: loginAction },
+         { path: 'register', element: <Register />, action: loginAction },
          { path: 'select-role', element: <RoleSelection /> },
          { path: 'profile', element: <Profile /> },
          {

@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
    Form,
    Link,
@@ -19,7 +19,24 @@ const Login = () => {
    const dispatch = useDispatch();
    const actionData = useActionData();
    const navigation = useNavigation();
+   const [details, setDetails] = useState({
+     
+      email:"",
+      password:"",
+    
+  });
 
+
+  const handleChange = (e) => {
+   const name = e.target.name;
+   const value = e.target.value;
+   setDetails(details => ({...details, [name]: value}))
+   }
+
+   const handleSubmit=()=>{
+      console.log(details)
+  }
+ 
    const isSubmitting = navigation.state === 'submitting';
 
    const { isLoading, error, userInfo } = useSelector((state) => {
@@ -62,16 +79,48 @@ const Login = () => {
                <p>{actionData.message}</p>
             </>
          )}
-         <Form method="post">
-            <label>Email</label>
-            <input type="email" name="email" label="Email" />
-            <label>Password</label>
-            <input type="password" name="password" label="Password" />
-            <button type="submit" disabled={isSubmitting}>
-               {isSubmitting ? 'Submitting...' : 'Submit'}
-            </button>
-         </Form>
+         <div style={{ display: "flex", justifyContent: "center" }}>
+            <div
+               className="shadow-2xl bg-gray-700 w-1/4 py-10 text-white h-max "
+               style={{ padding: "60px 40px", display: "flex", justifyContent: "center" }}
+            >
+               <Form className="form flex flex-col items-start gap-3" method='post' onSubmit={handleSubmit} >
+                  <div className='flex flex-col items-start gap-2' >
+                     <label>Email</label>
+                     <input
+                        type="text"
+                        id="email"
+                        className="shadow appearance-none border  rounded  py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                        name='email'
+                            onChange={handleChange}
+                                value={details.email}
+                     />
+                  </div>
+                  <div className='flex flex-col items-start gap-2'>
+                     <label>Password</label>
+                     <input
+                        type="password"
+                        id="password"
+                        className="shadow appearance-none border  rounded  py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                        name='password'
+                        onChange={handleChange}
+                        value={details.password}
+                     />
+                  </div>
+                  <button className="bg-#8b5cf6 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-full" style={{ backgroundColor: "#8b5cf6", width: "100%" }}>
+                     {isSubmitting ? 'Logging in...' : 'Login'}
+                  </button>
+                  <div className="mt-3">
+                     <Link to={'/register'} className='nav-link '>
+                  
+                        Don&apos;t have an account ?
+                     </Link>
+                  </div>
+               </Form>
+            </div>
+         </div>
       </div>
+
    );
 };
 
