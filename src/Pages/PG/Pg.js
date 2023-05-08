@@ -11,7 +11,7 @@ import './Pg.css';
 import PgCard from '../../Components/PgCard/PgCard';
 import Skeleton from '../../Components/Skeleton/Skeleton';
 
-const Pg = ({ mode }) => {
+const Pg = () => {
    const { pgs } = useLoaderData();
 
    return (

@@ -20,6 +20,7 @@ import Login, { action as loginAction } from '../Pages/Login/Login';
 import { action as manipulatePg } from '../Components/PgForm/PgForm';
 import RoleSelection from '../Pages/RoleSelection/RoleSelection';
 import Profile from '../Pages/Profile/Profile';
+import ProtectedRoutes from '../utils/ProtectedRoutes';
 
 export const AppRouter = createBrowserRouter([
    {
@@ -29,8 +30,13 @@ export const AppRouter = createBrowserRouter([
       children: [
          { index: true, element: <Home /> },
          { path: 'login', element: <Login />, action: loginAction },
-         { path: 'select-role', element: <RoleSelection /> },
-         { path: 'profile', element: <Profile /> },
+         {
+            element: <ProtectedRoutes />,
+            children: [
+               { path: 'select-role', element: <RoleSelection /> },
+               { path: 'profile', element: <Profile /> },
+            ],
+         },
          {
             path: 'pg',
             // TODO add seperate error page for Pg routes
@@ -51,14 +57,28 @@ export const AppRouter = createBrowserRouter([
                         action: pgDeleteAction,
                      },
                      {
-                        path: 'edit',
-                        element: <EditPg />,
-                        action: manipulatePg,
+                        element: <ProtectedRoutes role={'ROLE_OWNER'} />,
+                        children: [
+                           {
+                              path: 'edit',
+                              element: <EditPg />,
+                              action: manipulatePg,
+                           },
+                           { path: 'add-room', element: <AddRoom /> },
+                        ],
                      },
-                     { path: 'add-room', element: <AddRoom /> },
                   ],
                },
-               { path: 'add-pg', element: <AddPg />, action: manipulatePg },
+               {
+                  element: <ProtectedRoutes role={'ROLE_OWNER'} />,
+                  children: [
+                     {
+                        path: 'add-pg',
+                        element: <AddPg />,
+                        action: manipulatePg,
+                     },
+                  ],
+               },
             ],
          },
       ],

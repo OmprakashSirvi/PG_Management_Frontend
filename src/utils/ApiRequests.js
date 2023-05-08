@@ -26,6 +26,9 @@ const getAllPgs = async () => {
 const getPgForOwner = async () => {
    const jwt = store.getState().auth.jwt;
    const token = 'Bearer ' + jwt;
+   if (jwt === '') {
+      return false;
+   }
    try {
       const res = await fetch(`${apiUrl}/owner/pg`, {
          headers: { Authorization: token },

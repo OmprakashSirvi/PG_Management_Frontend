@@ -1,19 +1,32 @@
 /** @format */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { deleltePg, getPgById } from '../../utils/ApiRequests';
 import {
    Link,
    json,
    redirect,
-   useNavigate,
    useRouteLoaderData,
    useSubmit,
 } from 'react-router-dom';
+import { Button } from '@material-tailwind/react';
+import { useSelector } from 'react-redux';
 
 const PgDetails = () => {
+   // eslint-disable-next-line no-undef
    const apiUrl = process.env.REACT_APP_API_URL;
    const submit = useSubmit();
    const pgDetails = useRouteLoaderData('pg-detail');
+   const [isOwner, setIsOwner] = useState(false);
+
+   const { jwt, selectedUserMode } = useSelector((state) => {
+      return state.auth;
+   });
+
+   useEffect(() => {
+      if (jwt !== '' && selectedUserMode.role === 'ROLE_OWNER') {
+         setIsOwner(true);
+      }
+   }, [selectedUserMode, jwt]);
 
    const handleBookPg = () => {};
    const handleDeletePg = () => {
@@ -53,9 +66,19 @@ const PgDetails = () => {
             <p>Owner mobile number : {pgDetails.owner.mobileNumber}</p>
             <p>Owner email : {pgDetails.owner.email}</p>
          </div>
-         <button onClick={handleBookPg}>Book Pg</button>
-         <Link to="edit">Edit Pg</Link>
-         <button onClick={handleDeletePg}>Delete Pg</button>
+         <Button onClick={handleBookPg} className="m-2">
+            Book Pg
+         </Button>
+         {isOwner && (
+            <>
+               <Button className="m-2">
+                  <Link to="edit">Edit Pg</Link>
+               </Button>
+               <Button onClick={handleDeletePg} className="m-2">
+                  Delete Pg
+               </Button>
+            </>
+         )}
       </div>
    );
 };
