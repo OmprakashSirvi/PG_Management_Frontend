@@ -76,6 +76,29 @@ const ProfileMenu = ({ role }) => {
             path: 'select-role',
          },
       ];
+   } else if (role === 'ROLE_GUEST') {
+      profileMenuItems = [
+         {
+            label: 'My Profile',
+            icon: UserCircleIcon,
+            path: 'profile',
+         },
+         {
+            label: 'Edit Profile',
+            icon: Cog6ToothIcon,
+            path: 'edit-profile',
+         },
+         {
+            label: 'Notifications',
+            icon: BellIcon,
+            path: 'notifications',
+         },
+         {
+            label: 'Change Role',
+            icon: LifebuoyIcon,
+            path: 'select-role',
+         },
+      ];
    }
    return (
       <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">

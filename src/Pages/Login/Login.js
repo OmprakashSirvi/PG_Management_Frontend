@@ -46,11 +46,12 @@ const Login = () => {
 
    if (userInfo.length !== 0) {
       // TODO add confirm dialog here
-      navigate('/select-role');
       return (
          <>
             <p>You are already logged in</p>
             <Link to="/">Home</Link>
+            <p>Or you can select your role</p>
+            <Link to={'/select-role'}>Here</Link>
          </>
       );
    }

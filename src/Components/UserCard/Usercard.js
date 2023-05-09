@@ -14,7 +14,6 @@ const Usercard = ({ user, selectedUserRole }) => {
 
    function handleActivateRole() {
       dispatch(setRole(user.role));
-      window.alert('Role changed to : ' + user.role);
    }
 
    const header = (
@@ -25,7 +24,7 @@ const Usercard = ({ user, selectedUserRole }) => {
             : user.role === 'ROLE_ADIMN'
             ? 'Admin'
             : 'Guest'}
-         {user.role === selectedUserRole && <CheckCircleIcon />}
+         {user.role === selectedUserRole && '--selected--'}
       </>
    );
 
