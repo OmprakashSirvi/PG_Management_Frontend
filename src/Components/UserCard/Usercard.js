@@ -18,13 +18,17 @@ const Usercard = ({ user, selectedUserRole }) => {
 
    const header = (
       <>
-         <CheckCircleIcon />
          {user.role === 'ROLE_OWNER'
             ? 'Owner'
             : user.role === 'ROLE_ADIMN'
             ? 'Admin'
             : 'Guest'}
-         {user.role === selectedUserRole && '--selected--'}
+         {user.role === selectedUserRole && (
+            <CheckCircleIcon
+               strokeWidth="0.9"
+               className="w-6 h-6 items-center"
+            />
+         )}
       </>
    );
 
