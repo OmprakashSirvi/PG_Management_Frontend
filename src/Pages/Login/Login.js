@@ -93,7 +93,7 @@ const Login = () => {
                         className="shadow appearance-none border  rounded  py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                         name='email'
                             onChange={handleChange}
-                                value={details.email}
+                            value={details.email}
                      />
                   </div>
                   <div className='flex flex-col items-start gap-2'>

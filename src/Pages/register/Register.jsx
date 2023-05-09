@@ -5,21 +5,22 @@ const Register = () => {
     const [details, setDetails] = useState({
         fname: "",
         lname: "",
-        email:"",
-        password:"",
-        mono:"",
-        gender:""
+        email: "",
+        password: "",
+        mono: "",
+        gender: ""
     });
+  
 
-    const handleSubmit=()=>{
+    const handleSubmit = () => {
         console.log(details)
     }
-   
+
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        setDetails(details => ({...details, [name]: value}))
-        }
+        setDetails(details => ({ ...details, [name]: value }))
+    }
     return (
         <div
             className="flex items-center justify-center"
@@ -45,6 +46,7 @@ const Register = () => {
                 >
 
                     <div className='flex gap-4'>
+                        
                         <div className='flex flex-col items-start gap-2'>
 
                             <label htmlFor="fname">First Name</label>
@@ -56,7 +58,8 @@ const Register = () => {
                                 onChange={handleChange}
                                 value={details.fname}
                             />
-                        </div><div className='flex flex-col items-start gap-2'>
+                        </div>
+                        <div className='flex flex-col items-start gap-2'>
 
                             <label htmlFor="Username">Last Name</label>
                             <input
@@ -70,6 +73,8 @@ const Register = () => {
                         </div>
 
                     </div>
+
+
                     <div className='flex flex-col items-start gap-2'>
 
                         <label htmlFor="email">Email</label>
@@ -79,7 +84,7 @@ const Register = () => {
                             className="shadow appearance-none border  rounded  py-2 px-3 text-gray-700  leading-tight focus:outline-none focus:shadow-outline w-full"
                             name="email"
                             onChange={handleChange}
-                                value={details.email}
+                            value={details.email}
                         />
                     </div>
 
@@ -116,7 +121,7 @@ const Register = () => {
                             id="gender"
                             className="shadow appearance-none border rounded  py-2 px-3 text-gray-700  leading-tight focus:outline-none focus:shadow-outline  w-full"
                             onChange={handleChange}
-                           
+
 
                         >
                             <option selected disabled>
