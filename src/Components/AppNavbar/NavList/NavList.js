@@ -44,7 +44,7 @@ const NavList = ({ role }) => {
             path: 'about-us',
          },
       ];
-   } else if (role === 'ROLE_GUEST') {
+   } else if (role === 'ROLE_GUEST' || role === '') {
       navListItems = [
          {
             label: 'PG',

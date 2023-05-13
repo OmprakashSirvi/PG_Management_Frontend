@@ -1,42 +1,27 @@
 /** @format */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
    Form,
    Link,
    json,
    useActionData,
-   useNavigation,
    useNavigate,
+   useNavigation,
 } from 'react-router-dom';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuth, getUserInfo } from '../../Redux/store';
 
 import { loginUser } from '../../utils/ApiRequests';
+import { Button } from '@material-tailwind/react';
 
 const Login = () => {
-   const navigate = useNavigate();
    const dispatch = useDispatch();
    const actionData = useActionData();
    const navigation = useNavigation();
-   const [details, setDetails] = useState({
-     
-      email:"",
-      password:"",
-    
-  });
+   const navigate = useNavigate();
 
-
-  const handleChange = (e) => {
-   const name = e.target.name;
-   const value = e.target.value;
-   setDetails(details => ({...details, [name]: value}))
-   }
-
-   const handleSubmit=()=>{
-      console.log(details)
-  }
- 
    const isSubmitting = navigation.state === 'submitting';
 
    const { isLoading, error, userInfo } = useSelector((state) => {
@@ -62,66 +47,65 @@ const Login = () => {
    }
 
    if (userInfo.length !== 0) {
-      // TODO add confirm dialog here
-      return (
-         <>
-            <p>You are already logged in</p>
-            <Link to="/">Home</Link>
-            <p>Or you can select your role</p>
-            <Link to={'/select-role'}>Here</Link>
-         </>
-      );
+      navigate('/select-role');
    }
 
    return (
-      <div>
+      <div className="m-4">
          {actionData && actionData.error && (
             <>
                <p>{actionData.message}</p>
             </>
          )}
-         <div style={{ display: "flex", justifyContent: "center" }}>
+         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div
-               className="shadow-2xl bg-gray-700 w-1/4 py-10 text-white h-max "
-               style={{ padding: "60px 40px", display: "flex", justifyContent: "center" }}
+               className="shadow-2xl bg-gray-700 w-1/2 py-10 text-white h-max rounded-2xl"
+               style={{
+                  padding: '60px 40px',
+                  display: 'flex',
+                  justifyContent: 'center',
+               }}
             >
-               <Form className="form flex flex-col items-start gap-3" method='post' onSubmit={handleSubmit} >
-                  <div className='flex flex-col items-start gap-2' >
+               <Form
+                  className="form flex flex-col items-start gap-3"
+                  method="post"
+               >
+                  <div className="flex flex-col items-start gap-2">
                      <label>Email</label>
                      <input
                         type="text"
                         id="email"
                         className="shadow appearance-none border  rounded  py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                        name='email'
-                            onChange={handleChange}
-                            value={details.email}
+                        name="email"
                      />
                   </div>
-                  <div className='flex flex-col items-start gap-2'>
+                  <div className="flex flex-col items-start gap-2">
                      <label>Password</label>
                      <input
                         type="password"
                         id="password"
                         className="shadow appearance-none border  rounded  py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                        name='password'
-                        onChange={handleChange}
-                        value={details.password}
+                        name="password"
                      />
                   </div>
-                  <button className="bg-#8b5cf6 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-full" style={{ backgroundColor: "#8b5cf6", width: "100%" }}>
-                     {isSubmitting ? 'Logging in...' : 'Login'}
-                  </button>
-                  <div className="mt-3">
-                     <Link to={'/register'} className='nav-link '>
-                  
-                        Don&apos;t have an account ?
-                     </Link>
+                  <div className="items-center align-middle text-center">
+                     <Button
+                        color="blue"
+                        className="items-center"
+                        type="submit"
+                     >
+                        {isSubmitting ? 'Logging in...' : 'Login'}
+                     </Button>
+                     <div className="mt-3">
+                        <Link to={'/register'} className="nav-link ">
+                           Don&apos;t have an account ?
+                        </Link>
+                     </div>
                   </div>
                </Form>
             </div>
          </div>
       </div>
-
    );
 };
 

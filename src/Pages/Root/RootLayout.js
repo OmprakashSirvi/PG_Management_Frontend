@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import AppNavbar from '../../Components/AppNavbar/AppNavbar';
+import AppFooter from '../../Components/AppFooter/AppFooter';
 
 const RootLayout = () => {
    const state = useSelector((state) => {
@@ -21,6 +22,7 @@ const RootLayout = () => {
          />
 
          <Outlet />
+         <AppFooter />
       </>
    );
 };

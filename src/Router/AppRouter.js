@@ -21,7 +21,17 @@ import { action as manipulatePg } from '../Components/PgForm/PgForm';
 import RoleSelection from '../Pages/RoleSelection/RoleSelection';
 import Profile from '../Pages/Profile/Profile';
 import Register from '../Pages/register/Register';
+import { action as mainpulateUser } from '../Components/UserForm/UserForm';
 import ProtectedRoutes from '../utils/ProtectedRoutes';
+import EditProfile from '../Pages/EditProfile/EditProfile';
+import PgResidents, {
+   loader as pgGuestsLoader,
+} from '../Pages/PgResidents/PgResidents';
+import Residents from '../Pages/Residents/Residents';
+import VerifyUser, {
+   action as verifyUserAction,
+} from '../Pages/VerifyUser/VerifyUser';
+import Rooms, { loader as roomLoader } from '../Pages/Rooms/Rooms';
 
 export const AppRouter = createBrowserRouter([
    {
@@ -31,13 +41,27 @@ export const AppRouter = createBrowserRouter([
       children: [
          { index: true, element: <Home /> },
          { path: 'login', element: <Login />, action: loginAction },
-         { path: 'register', element: <Register />, action: loginAction },
+         { path: 'register', element: <Register />, action: mainpulateUser },
+         {
+            path: 'verify-user',
+            element: <VerifyUser />,
+            action: verifyUserAction,
+         },
          {
             element: <ProtectedRoutes />,
             children: [
                { path: 'select-role', element: <RoleSelection /> },
                { path: 'profile', element: <Profile /> },
+               {
+                  path: 'edit-profile',
+                  element: <EditProfile />,
+                  action: mainpulateUser,
+               },
             ],
+         },
+         {
+            element: <ProtectedRoutes role={'ROLE_OWNER'} />,
+            children: [{ path: 'residents', element: <Residents /> }],
          },
          {
             path: 'pg',
@@ -66,7 +90,16 @@ export const AppRouter = createBrowserRouter([
                               element: <EditPg />,
                               action: manipulatePg,
                            },
-                           { path: 'add-room', element: <AddRoom /> },
+                           {
+                              path: 'rooms',
+                              element: <Rooms />,
+                              loader: roomLoader,
+                           },
+                           {
+                              path: 'view-residents',
+                              element: <PgResidents />,
+                              loader: pgGuestsLoader,
+                           },
                         ],
                      },
                   ],
