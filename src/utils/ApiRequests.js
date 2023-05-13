@@ -13,6 +13,29 @@ const loginUser = async (credentials) => {
    }
 };
 
+const registerUser = async (userDetails) => {
+   try {
+      const res = await fetch(`${apiUrl}/user/register`, {
+         headers: { 'Content-Type': 'Application/json' },
+         body: JSON.stringify(userDetails),
+         method: 'POST',
+      });
+
+      return res;
+   } catch (err) {
+      return false;
+   }
+};
+
+const verifyUser = async (link) => {
+   try {
+      const res = await fetch(link);
+      return res;
+   } catch (err) {
+      return false;
+   }
+};
+
 const getAllPgs = async () => {
    try {
       const res = await fetch(`${apiUrl}/pg/`);
@@ -64,10 +87,11 @@ const getMe = async (jwt) => {
 
 const createNewPg = async (pg) => {
    try {
-      const jwt = localStorage.getItem('jwt');
-
-      const token = `Bearer ${jwt}`;
-
+      const jwt = store.getState().auth.jwt;
+      const token = 'Bearer ' + jwt;
+      if (jwt === '') {
+         return false;
+      }
       const res = await fetch(`${apiUrl}/owner/pg`, {
          method: 'POST',
          headers: {
@@ -85,9 +109,11 @@ const createNewPg = async (pg) => {
 
 const editPg = async (pg, id) => {
    try {
-      const jwt = localStorage.getItem('jwt');
-
-      const token = `Bearer ${jwt}`;
+      const jwt = store.getState().auth.jwt;
+      const token = 'Bearer ' + jwt;
+      if (jwt === '') {
+         return false;
+      }
 
       const res = await fetch(`${apiUrl}/owner/pg/${id}`, {
          method: 'PATCH',
@@ -104,11 +130,49 @@ const editPg = async (pg, id) => {
    }
 };
 
-const deleltePg = async (id) => {
-   const jwt = localStorage.getItem('jwt');
-
-   const token = `Bearer ${jwt}`;
+const getAllRoomsInPg = async (id) => {
    try {
+      const jwt = store.getState().auth.jwt;
+      const token = 'Bearer ' + jwt;
+      if (jwt === '') {
+         return { message: 'not signed in', status: 401 };
+      }
+
+      const res = await fetch(`${apiUrl}/pg/${id}/room/`, {
+         headers: { Authorization: token },
+      });
+
+      return res;
+   } catch (err) {
+      return false;
+   }
+};
+
+const getGuestsInPg = async (id) => {
+   try {
+      const jwt = store.getState().auth.jwt;
+      const token = 'Bearer ' + jwt;
+      if (jwt === '') {
+         return false;
+      }
+
+      const res = await fetch(`${apiUrl}/owner/pg/${id}/guests`, {
+         headers: { Authorization: token },
+      });
+
+      return res;
+   } catch (err) {
+      return false;
+   }
+};
+
+const deleltePg = async (id) => {
+   try {
+      const jwt = store.getState().auth.jwt;
+      const token = 'Bearer ' + jwt;
+      if (jwt === '') {
+         return false;
+      }
       const res = await fetch(`${apiUrl}/pg/${id}`, {
          method: 'DELETE',
          headers: {
@@ -131,4 +195,8 @@ export {
    deleltePg,
    editPg,
    getPgForOwner,
+   registerUser,
+   verifyUser,
+   getGuestsInPg,
+   getAllRoomsInPg,
 };

@@ -77,6 +77,9 @@ const PgDetails = () => {
                <Button onClick={handleDeletePg} className="m-2">
                   Delete Pg
                </Button>
+               <Button className="m-2">
+                  <Link to="view-residents">View All Residents</Link>
+               </Button>
             </>
          )}
       </div>

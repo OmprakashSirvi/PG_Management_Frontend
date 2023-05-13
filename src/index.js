@@ -12,13 +12,16 @@ import '@fontsource/roboto/700.css';
 import { ThemeProvider } from '@material-tailwind/react';
 
 import { Provider } from 'react-redux';
-import { store } from './Redux/store';
+import { persistedStore, store } from './Redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
    <ThemeProvider>
       <Provider store={store}>
-         <App />
+         <PersistGate persistor={persistedStore}>
+            <App />
+         </PersistGate>
       </Provider>
    </ThemeProvider>
 );

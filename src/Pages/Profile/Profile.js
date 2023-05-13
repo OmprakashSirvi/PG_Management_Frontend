@@ -10,13 +10,15 @@ import {
    Typography,
 } from '@material-tailwind/react';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './Profile.css';
 import ConfirmDialog from '../../Components/AlertDialog/AlertDialog';
 import { Link } from 'react-router-dom';
+import { removeAuth } from '../../Redux/store';
 
 // If you are here then you are probably already logged in
 const Profile = () => {
+   const dispatch = useDispatch();
    const auth = useSelector((state) => {
       return state.auth;
    });
@@ -46,6 +48,10 @@ const Profile = () => {
          </>
       );
    }
+   function handleLogoutClick() {
+      dispatch(removeAuth());
+   }
+
    // if (showDialog) {
    //    return (
    //       <ConfirmDialog
@@ -73,13 +79,15 @@ const Profile = () => {
                      {userInfo.lastName && userInfo.lastName}
                   </Typography>
                   <Typography color="blue" className="font-medium" textGradient>
-                     {userInfo.role === 'ROLE_OWNER' && 'Owner'}
+                     {(userInfo.role === 'ROLE_OWNER' && 'Owner') || ''}
                   </Typography>
                   <Typography color="blue" className="font-medium" textGradient>
-                     {userInfo.mobileNumber}
+                     {userInfo.mobileNumber || ''}
                   </Typography>
                </CardBody>
-               <CardFooter className="flex justify-center gap-7 pt-2"></CardFooter>
+               <CardFooter className="flex justify-center gap-7 pt-2">
+                  Footer
+               </CardFooter>
             </Card>
          </center>
 
@@ -92,7 +100,7 @@ const Profile = () => {
             style={{ backgroundColor: '#f44336', margin: '20px' }}
             className="logout-button"
             variant="contained"
-            // onClick={handleLogoutClick}
+            onClick={handleLogoutClick}
          >
             Logout
          </Button>

@@ -33,6 +33,7 @@ export const authSlice = createSlice({
          state.isLoading = false;
          state.userInfo = action.payload;
          state.selectedUserMode.email = action.payload[0].email;
+         state.selectedUserMode.role = 'ROLE_GUEST';
       });
       builder.addCase(getUserInfo.rejected, (state, action) => {
          state.isLoading = false;

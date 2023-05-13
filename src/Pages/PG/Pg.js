@@ -2,7 +2,7 @@
 
 import React, { Suspense } from 'react';
 import { Await, defer, useLoaderData, json, Link } from 'react-router-dom';
-import { Typography } from '@material-tailwind/react';
+import { Button, Typography } from '@material-tailwind/react';
 
 import { getAllPgs, getPgForOwner } from '../../utils/ApiRequests';
 import { Pause } from '../../utils/Pause';
@@ -17,9 +17,9 @@ const Pg = () => {
    return (
       <React.Fragment>
          <Typography variant="h3">List of PGs</Typography>
-         <Link to={'add-pg'}>
-            <button>Add Pg</button>
-         </Link>
+         <Button className="mb-6 mt-4 hover:bg-green-900" color="green">
+            <Link to={'add-pg'}>Add Pg</Link>
+         </Button>
          <Suspense
             fallback={
                <div className="grid-container">
