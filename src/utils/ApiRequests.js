@@ -188,6 +188,7 @@ const deleltePg = async (id) => {
 };
 
 export {
+   REACT_APP_API_URL,
    loginUser,
    getAllPgs,
    getPgById,

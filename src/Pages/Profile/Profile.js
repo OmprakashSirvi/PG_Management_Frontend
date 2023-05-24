@@ -12,12 +12,14 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 import './Profile.css';
-import ConfirmDialog from '../../Components/AlertDialog/AlertDialog';
 import { Link } from 'react-router-dom';
 import { removeAuth } from '../../Redux/store';
+import { REACT_APP_API_URL } from '../../utils/ApiRequests';
 
 // If you are here then you are probably already logged in
 const Profile = () => {
+   const API_URL = REACT_APP_API_URL;
+
    const dispatch = useDispatch();
    const auth = useSelector((state) => {
       return state.auth;
@@ -71,7 +73,10 @@ const Profile = () => {
          <center>
             <Card className="w-96">
                <CardHeader floated={false} className="h-80">
-                  <img src="" alt="profile-picture" />
+                  <img
+                     src={`${API_URL}/api/v1/images/user/${userInfo.image}`}
+                     alt="profile-picture"
+                  />
                </CardHeader>
                <CardBody className="text-center">
                   <Typography variant="h4" color="blue-gray" className="mb-2">
