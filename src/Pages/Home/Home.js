@@ -7,6 +7,8 @@ import FeatureCard from '../../Components/FeatureCard/FeatureCard';
 import './Home.css';
 
 const Home = () => {
+   const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+
    return (
       <div className="home">
          <div className="pt-24">
@@ -26,7 +28,7 @@ const Home = () => {
                <div className="w-full md:w-3/5 py-6 text-center">
                   <img
                      className="w-full md:w-4/5 z-50"
-                     src="http://localhost:8080/api/v1/images/user/homepagepg.png"
+                     src={`${REACT_APP_API_URL}/api/v1/images/user/homepagepg.png`}
                   />
                </div>
             </div>
