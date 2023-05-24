@@ -113,8 +113,8 @@ export async function action({ request }) {
    const data = await request.formData();
 
    const credentials = {
-      email: data.get('email') || 'ownermail1@gmail.com',
-      password: data.get('password') || 'owner1234',
+      email: data.get('email'),
+      password: data.get('password'),
    };
 
    const res = await loginUser(credentials);

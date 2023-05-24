@@ -196,7 +196,8 @@ export async function action({ request }) {
    }
 
    if (res.status === 201) {
-      return redirect('/verify-user');
+      alert('User Registered Successfully');
+      return redirect('/login');
    }
 
    return null;
