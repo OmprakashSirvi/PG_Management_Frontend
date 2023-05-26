@@ -1,12 +1,52 @@
 /** @format */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Checkbox, Typography } from '@material-tailwind/react';
-import { Link, Form, useActionData, redirect, json } from 'react-router-dom';
+import {
+   Link,
+   Form,
+   useActionData,
+   json,
+   useNavigate,
+   useNavigation,
+} from 'react-router-dom';
 import { registerUser } from '../../utils/ApiRequests';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserInfo, setAuth } from '../../Redux/store';
 
 const UserForm = ({ method, event }) => {
    const data = useActionData();
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
+   const navigation = useNavigation();
+
+   const isSubmitting = navigation.state === 'submitting';
+
+   const { isLoading, error, userInfo } = useSelector((state) => {
+      return state.auth;
+   });
+
+   useEffect(() => {
+      if (data) {
+         if (data.status === 'Success') {
+            const jwt = data.jwt;
+            dispatch(setAuth({ jwt }));
+            dispatch(getUserInfo(jwt));
+         }
+      }
+   }, [data]);
+
+   if (isLoading || navigation.state === 'loading') {
+      return <>Loading...</>;
+   }
+
+   if (error) {
+      return <>There was some error in loading user data</>;
+   }
+
+   if (userInfo.length !== 0) {
+      navigate('/select-role');
+   }
 
    return (
       <div
@@ -129,8 +169,9 @@ const UserForm = ({ method, event }) => {
                   type="submit"
                   color="blue"
                   className=" hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-full mt-5"
+                  disabled={isSubmitting}
                >
-                  Register
+                  {isSubmitting ? 'Registering...' : 'Register'}
                </Button>
 
                <div className="mt-3">
@@ -158,12 +199,12 @@ export async function action({ request }) {
    }
 
    const userData = {
-      firstName: data.get('fname') || 'Test',
-      lastName: data.get('lname') || 'man',
-      email: data.get('email') || 'testmail@gmail.com',
-      password: data.get('password') || 'user1234',
-      mobileNumber: data.get('mobileNumber') || '9876543210',
-      gender: data.get('gender') || 'MALE',
+      firstName: data.get('fname'),
+      lastName: data.get('lname'),
+      email: data.get('email'),
+      password: data.get('password'),
+      mobileNumber: data.get('mobileNumber'),
+      gender: data.get('gender'),
       roles,
    };
 
@@ -178,6 +219,11 @@ export async function action({ request }) {
    if (userData.mobileNumber.length < 10) {
       return { message: 'Not a valid mobile Number', error: true };
    }
+
+   if (roles.length == 0) {
+      return { message: 'Roles should not be empty', error: true };
+   }
+
    let res;
 
    if (method === 'POST') {
@@ -187,20 +233,27 @@ export async function action({ request }) {
       console.log('huehue');
    }
 
+   const resData = await res.json();
+
+   console.log(resData);
+
    if (!res) {
       throw json({ title: 'Server side error' });
    }
 
    if (!res.ok) {
-      return { message: 'Could not register user', status: 402, error: true };
+      return {
+         message: `Could not register user : ${resData.message}`,
+         status: 402,
+         error: true,
+      };
    }
 
    if (res.status === 201) {
       alert('User Registered Successfully');
-      return redirect('/login');
    }
 
-   return null;
+   return resData;
 }
 
 export default UserForm;
