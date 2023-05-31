@@ -28,9 +28,6 @@ import PgResidents, {
    loader as pgGuestsLoader,
 } from '../Pages/PgResidents/PgResidents';
 import Residents from '../Pages/Residents/Residents';
-import VerifyUser, {
-   action as verifyUserAction,
-} from '../Pages/VerifyUser/VerifyUser';
 import Rooms, { loader as roomLoader } from '../Pages/Rooms/Rooms';
 
 export const AppRouter = createBrowserRouter([
@@ -42,11 +39,7 @@ export const AppRouter = createBrowserRouter([
          { index: true, element: <Home /> },
          { path: 'login', element: <Login />, action: loginAction },
          { path: 'register', element: <Register />, action: mainpulateUser },
-         {
-            path: 'verify-user',
-            element: <VerifyUser />,
-            action: verifyUserAction,
-         },
+
          {
             element: <ProtectedRoutes />,
             children: [
