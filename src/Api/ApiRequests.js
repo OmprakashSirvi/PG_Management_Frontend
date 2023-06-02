@@ -2,7 +2,14 @@
 import axios from 'axios';
 import { store } from '../Redux/store';
 
-import { getPgForOwner, createNewPg, editPg } from './Owner/OwnerRequests';
+import {
+   getPgForOwner,
+   createNewPg,
+   editPg,
+   createRoom,
+   deleltePg,
+   getGuestsInPg,
+} from './Owner/OwnerRequests';
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 const apiUrl = `${REACT_APP_API_URL}/api/v1`;
@@ -82,66 +89,6 @@ const getAllRoomsInPg = async (id) => {
 
       const res = await fetch(`${apiUrl}/pg/${id}/room/`, {
          headers: { Authorization: token },
-      });
-
-      return res;
-   } catch (err) {
-      return false;
-   }
-};
-
-const getGuestsInPg = async (id) => {
-   try {
-      const jwt = store.getState().auth.jwt;
-      const token = 'Bearer ' + jwt;
-      if (jwt === '') {
-         return false;
-      }
-
-      const res = await fetch(`${apiUrl}/owner/pg/${id}/guests`, {
-         headers: { Authorization: token },
-      });
-
-      return res;
-   } catch (err) {
-      return false;
-   }
-};
-
-const deleltePg = async (id) => {
-   try {
-      const jwt = store.getState().auth.jwt;
-      const token = 'Bearer ' + jwt;
-      if (jwt === '') {
-         return false;
-      }
-      const res = await fetch(`${apiUrl}/pg/${id}`, {
-         method: 'DELETE',
-         headers: {
-            Authorization: token,
-         },
-      });
-
-      return res;
-   } catch (err) {
-      return false;
-   }
-};
-
-const createRoom = async (room, pgId) => {
-   try {
-      const jwt = store.getState().auth.jwt;
-      const token = 'Bearer ' + jwt;
-      if (jwt === '') {
-         return false;
-      }
-
-      console.log(room, pgId);
-
-      const res = await fetch(`${apiUrl}/owner/pg/${pgId}/room`, {
-         method: 'POST',
-         headers: { Authorization: token },
-         body: JSON.stringify(room),
       });
 
       return res;

@@ -65,4 +65,71 @@ const editPg = async (pg, id) => {
    }
 };
 
-export { getPgForOwner, createNewPg, editPg };
+const createRoom = async (room, pgId) => {
+   try {
+      const jwt = store.getState().auth.jwt;
+      const token = 'Bearer ' + jwt;
+      if (jwt === '') {
+         return false;
+      }
+
+      console.log(room, pgId);
+
+      const res = await fetch(`${apiUrl}/owner/pg/${pgId}/room`, {
+         method: 'POST',
+         headers: { Authorization: token },
+         body: JSON.stringify(room),
+      });
+
+      return res;
+   } catch (err) {
+      return false;
+   }
+};
+
+const getGuestsInPg = async (id) => {
+   try {
+      const jwt = store.getState().auth.jwt;
+      const token = 'Bearer ' + jwt;
+      if (jwt === '') {
+         return false;
+      }
+
+      const res = await fetch(`${apiUrl}/owner/pg/${id}/guests`, {
+         headers: { Authorization: token },
+      });
+
+      return res;
+   } catch (err) {
+      return false;
+   }
+};
+
+const deleltePg = async (id) => {
+   try {
+      const jwt = store.getState().auth.jwt;
+      const token = 'Bearer ' + jwt;
+      if (jwt === '') {
+         return false;
+      }
+      const res = await fetch(`${apiUrl}/pg/${id}`, {
+         method: 'DELETE',
+         headers: {
+            Authorization: token,
+         },
+      });
+
+      return res;
+   } catch (err) {
+      return false;
+   }
+};
+
+export {
+   getPgForOwner,
+   createNewPg,
+   editPg,
+   createRoom,
+   deleltePg,
+   getGuestsInPg,
+};
