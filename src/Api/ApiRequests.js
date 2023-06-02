@@ -9,6 +9,7 @@ import {
    createRoom,
    deleltePg,
    getGuestsInPg,
+   deleteRoom,
 } from './Owner/OwnerRequests';
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
@@ -112,4 +113,5 @@ export {
    getGuestsInPg,
    getAllRoomsInPg,
    createRoom,
+   deleteRoom,
 };

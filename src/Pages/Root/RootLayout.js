@@ -18,7 +18,7 @@ const RootLayout = () => {
       <>
          <AppNavbar
             login={state.jwt !== ''}
-            role={state.selectedUserMode.role}
+            role={state?.selectedUserMode?.role}
          />
 
          <Outlet />

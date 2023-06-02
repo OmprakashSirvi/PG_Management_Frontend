@@ -73,13 +73,13 @@ const createRoom = async (room, pgId) => {
          return false;
       }
 
-      console.log(room, pgId);
-
       const res = await fetch(`${apiUrl}/owner/pg/${pgId}/room`, {
          method: 'POST',
-         headers: { Authorization: token },
+         headers: { Authorization: token, 'Content-Type': 'Application/json' },
          body: JSON.stringify(room),
       });
+
+      console.log(res);
 
       return res;
    } catch (err) {
@@ -112,11 +112,31 @@ const deleltePg = async (id) => {
       if (jwt === '') {
          return false;
       }
+
       const res = await fetch(`${apiUrl}/pg/${id}`, {
          method: 'DELETE',
          headers: {
             Authorization: token,
          },
+      });
+
+      return res;
+   } catch (err) {
+      return false;
+   }
+};
+
+const deleteRoom = async (id) => {
+   try {
+      const jwt = store.getState().auth.jwt;
+      const token = 'Bearer ' + jwt;
+      if (jwt === '') {
+         return false;
+      }
+
+      const res = await fetch(`${apiUrl}/owner/room/${id}`, {
+         method: 'DELETE',
+         headers: { Authorization: token },
       });
 
       return res;
@@ -132,4 +152,5 @@ export {
    createRoom,
    deleltePg,
    getGuestsInPg,
+   deleteRoom,
 };

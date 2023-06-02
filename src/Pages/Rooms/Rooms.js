@@ -15,7 +15,7 @@ import { useSubmit } from 'react-router-dom';
 const Rooms = () => {
    const dispatch = useDispatch();
 
-   // For whether to show new room form or not.
+   // For wheather to show new room form or not.
    const [showForm, setShowForm] = useState(false);
 
    // gets loaded rooms from loader from backend
@@ -32,8 +32,10 @@ const Rooms = () => {
    });
 
    useEffect(() => {
+      console.log(rooms.length);
+
       setShowForm(false);
-   }, [rooms]);
+   }, [rooms.length]);
 
    function handleRoomAdd() {
       setShowForm(true);
@@ -45,21 +47,30 @@ const Rooms = () => {
    }
 
    return (
-      <>
-         <div className="flex flex-row justify-between m-3">
+      <div className="m-3">
+         <div className="flex flex-row justify-between items-center m-1">
             <h1 className="m-2 text-xl">Rooms</h1>
             <Button variant="outlined" onClick={handleRoomAdd} className="mb-4">
                Add Room
             </Button>
          </div>
+         {/* If not rooms are there then show this message */}
          {rooms.length === 0 && (
             <Typography variant="h4" className="m-4">
                No rooms currently here..
             </Typography>
          )}
-         {rooms.map((room, index) => {
-            return <RoomList key={index} room={room} />;
-         })}
+         <div className="flex justify-center items-center flex-col">
+            {/* If there are rooms the show rooms */}
+            {rooms.map((room, index) => {
+               return (
+                  <>
+                     <RoomList key={index} room={room} />
+                  </>
+               );
+            })}
+         </div>
+         {/* If showForm is true then show form */}
          <div className="flex flex-col items-center">
             {showForm && <RoomForm method={'POST'} />}
 
@@ -75,7 +86,7 @@ const Rooms = () => {
                <Button variant="text">Cancel</Button>
             </div>
          </div>
-      </>
+      </div>
    );
 };
 
@@ -83,6 +94,7 @@ export async function loader({ params }) {
    const id = params.id;
 
    const res = await getAllRoomsInPg(id);
+   console.log('Getting rooms in pg');
 
    if (res.status === 401) {
       throw json({ message: res.message, status: 401 });

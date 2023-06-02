@@ -2,6 +2,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import { addRoom } from '../thunks/addRoom';
+import { deleteStateRoom } from '../thunks/deleteRoom';
 
 export const roomSlice = createSlice({
    name: 'room',
@@ -11,6 +12,7 @@ export const roomSlice = createSlice({
    },
    reducers: {
       setInitialState(state, action) {
+         console.log(action.payload);
          state.rooms = action.payload;
       },
       addRoom(state, action) {
@@ -36,14 +38,28 @@ export const roomSlice = createSlice({
       },
    },
    extraReducers(builder) {
-      builder.addCase(addRoom.fulfilled, (state) => {
+      builder.addCase(addRoom.fulfilled, (state, action) => {
          state.isLoading = false;
+         state.rooms.push(action.payload);
       });
-      builder.addCase(addRoom.pending, (state, action) => {
+      builder.addCase(addRoom.pending, (state) => {
          state.isLoading = true;
-         state.data.push(action.payload);
       });
       builder.addCase(addRoom.rejected, (state, action) => {
+         state.isLoading = false;
+         state.error = action.error;
+      });
+
+      builder.addCase(deleteStateRoom.fulfilled, (state, action) => {
+         state.isLoading = false;
+
+         console.log(action);
+         state.rooms = state.rooms.filter((room) => room.id !== action.payload);
+      });
+      builder.addCase(deleteStateRoom.pending, (state) => {
+         state.isLoading = true;
+      });
+      builder.addCase(deleteStateRoom.rejected, (state, action) => {
          state.isLoading = false;
          state.error = action.error;
       });

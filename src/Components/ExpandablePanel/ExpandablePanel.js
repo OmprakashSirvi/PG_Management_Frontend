@@ -12,7 +12,7 @@ const ExpandablePanel = ({ header, children }) => {
    return (
       <div className="mb-6 border rounded-md">
          <div onClick={handleClick} className="cursor-pointer">
-            <div className="flex p-2 justify-between border w-full text-center align-middle">
+            <div className="flex p-2 justify-between border text-center align-middle">
                <div className="flex flex-row justify-between text-center align-middle">
                   {header}
                </div>

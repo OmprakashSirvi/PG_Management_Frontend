@@ -6,22 +6,16 @@ import {
    json,
    redirect,
    useActionData,
-   useNavigate,
    useNavigation,
 } from 'react-router-dom';
 
 import { createNewPg, editPg } from '../../Api/ApiRequests';
 
 const PgForm = ({ method, event }) => {
-   const navigate = useNavigate();
    const navigation = useNavigation();
    const data = useActionData();
 
    const isSubmitting = navigation.state === 'submitting';
-
-   const handleCancel = () => {
-      navigate('..');
-   };
 
    return (
       <div className="flex justify-center">
@@ -124,6 +118,8 @@ const PgForm = ({ method, event }) => {
 export async function action({ request, params }) {
    const method = request.method;
    const data = await request.formData();
+
+   // BUG: pgType is null
    const newPg = {
       name: data.get('name'),
       gender: data.get('gender'),
@@ -131,7 +127,9 @@ export async function action({ request, params }) {
       city: data.get('city'),
       pgType: data.get('pgType'),
    };
+
    let res;
+
    if (method === 'POST') {
       res = await createNewPg(newPg);
    } else if (method === 'PATCH') {
@@ -143,12 +141,12 @@ export async function action({ request, params }) {
       throw json({ message: 'Not a valid method', status: 500 });
    }
 
-   if (res.status === 400) {
-      return res;
+   if (!res.ok) {
+      throw json({ message: 'something went wrong', status: 500 });
    }
 
-   if (!res || !res.ok) {
-      throw json({ message: 'something went wrong', status: 500 });
+   if (res.status === 400) {
+      return res;
    }
 
    return redirect('/');

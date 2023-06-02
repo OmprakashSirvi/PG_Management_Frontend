@@ -46,7 +46,7 @@ const Login = () => {
       return <>There was some error in loading user data</>;
    }
 
-   if (userInfo.length !== 0) {
+   if (userInfo?.length !== 0) {
       navigate('/select-role');
    }
 

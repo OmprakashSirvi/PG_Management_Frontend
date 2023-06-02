@@ -7,7 +7,7 @@ export const authSlice = createSlice({
    initialState: {
       jwt: '',
       userInfo: [],
-      selectedUserMode: { role: '', email: '' },
+      selectedUserMode: { role: 'ROLE_GUEST', email: '' },
       isLoading: false,
       error: null,
    },

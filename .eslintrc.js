@@ -18,7 +18,7 @@ module.exports = {
       'react/no-unused-prop-types': 1,
       'react/no-unused-class-component-methods': 1,
       'promise/always-return': 0,
-      'react/prop-types': 1,
+      'react/prop-types': 0,
       'no-console': 1,
    },
 };
