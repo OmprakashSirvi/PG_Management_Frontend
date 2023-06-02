@@ -29,6 +29,7 @@ import PgResidents, {
 } from '../Pages/PgResidents/PgResidents';
 import Residents from '../Pages/Residents/Residents';
 import Rooms, { loader as roomLoader } from '../Pages/Rooms/Rooms';
+import { action as manipulateRoom } from '../Components/RoomForm/RoomForm';
 
 export const AppRouter = createBrowserRouter([
    {
@@ -86,6 +87,7 @@ export const AppRouter = createBrowserRouter([
                            {
                               path: 'rooms',
                               element: <Rooms />,
+                              action: manipulateRoom,
                               loader: roomLoader,
                            },
                            {

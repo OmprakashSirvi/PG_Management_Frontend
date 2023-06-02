@@ -28,4 +28,6 @@ export const {
    setInitialState,
    updateRoom,
 } = roomSlice.actions;
+
 export * from './thunks/getUserInfo';
+export * from './thunks/addRoom';

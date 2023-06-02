@@ -9,31 +9,12 @@ import {
    Option,
 } from '@material-tailwind/react';
 
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import { Form } from 'react-router-dom';
-import { addRoom, updateRoom } from '../../Redux/store';
+import { createRoom } from '../../Api/ApiRequests';
 
 export default function RoomForm({ room, method }) {
-   const dispatch = useDispatch();
    const uniqueId = () => parseInt(Date.now() * Math.random()).toString();
-
-   const [formData, setFormData] = useState({
-      id: room ? room.id : uniqueId(),
-      roomType: room ? room.roomType : 'AC',
-      roomRent: room ? room.roomRent : '',
-      roomSharing: room ? room.roomSharing : '',
-      roomStatus: room ? room.roomStatus : 'Available',
-   });
-
-   function handleSubmit(event) {
-      event.preventDefault();
-      if (method === 'update') {
-         dispatch(updateRoom(formData));
-      } else {
-         dispatch(addRoom(formData));
-      }
-   }
 
    return (
       <Card color="transparent" shadow={false} className="m-4 items-center">
@@ -41,8 +22,8 @@ export default function RoomForm({ room, method }) {
             Enter roomDetails
          </Typography>
          <Form
+            method={method}
             className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
-            onSubmit={handleSubmit}
          >
             <div className="mb-4 flex flex-col gap-6">
                <Select
@@ -50,13 +31,6 @@ export default function RoomForm({ room, method }) {
                   label="Room Type"
                   name="roomType"
                   className="hover:bg-blue-gray-50"
-                  value={formData.roomType || 'AC'}
-                  onChange={(event) => {
-                     setFormData({
-                        ...formData,
-                        roomType: event,
-                     });
-                  }}
                >
                   <Option value="AC">AC</Option>
                   <Option value="NON_AC">Non - AC</Option>
@@ -66,26 +40,12 @@ export default function RoomForm({ room, method }) {
                   type="number"
                   label="Room Rent"
                   name="roomRent"
-                  value={formData.roomRent}
-                  onChange={(event) => {
-                     setFormData({
-                        ...formData,
-                        roomRent: event.target.value * 1,
-                     });
-                  }}
                />
                <Input
                   type="number"
                   size="lg"
                   label="Room Sharing"
                   name="roomSharing"
-                  value={formData.roomSharing}
-                  onChange={(event) => {
-                     setFormData({
-                        ...formData,
-                        roomSharing: event.target.value * 1,
-                     });
-                  }}
                />
             </div>
             <Button className="mt-6" fullWidth type="submit">
@@ -94,4 +54,31 @@ export default function RoomForm({ room, method }) {
          </Form>
       </Card>
    );
+}
+
+export async function action({ request, params }) {
+   const method = request.method;
+   const data = await request.formData();
+   console.log(data);
+
+   const pgId = params.id;
+
+   const room = {
+      roomStatus: 'Available',
+      roomRent: data.roomRent || 1200,
+      roomSharing: data.roomSharing || 3,
+      roomType: data.roomType || 'AC',
+   };
+
+   console.log(room);
+
+   if (method === 'POST') {
+      const res = await createRoom(room, pgId);
+
+      console.log(res);
+   } else if (method === 'PATCH') {
+      return null;
+   }
+
+   return null;
 }

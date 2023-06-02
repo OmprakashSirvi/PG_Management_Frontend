@@ -10,7 +10,7 @@ import {
    useNavigate,
    useNavigation,
 } from 'react-router-dom';
-import { registerUser } from '../../utils/ApiRequests';
+import { registerUser } from '../../Api/ApiRequests';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserInfo, setAuth } from '../../Redux/store';
 

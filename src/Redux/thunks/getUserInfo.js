@@ -1,7 +1,7 @@
 /** @format */
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getMe } from '../../utils/ApiRequests';
+import { getMe } from '../../Api/ApiRequests';
 
 const getUserInfo = createAsyncThunk('user/info/fetch', async (jwt) => {
    const res = await getMe(jwt);

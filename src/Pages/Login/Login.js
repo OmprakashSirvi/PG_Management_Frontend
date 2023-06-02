@@ -13,7 +13,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuth, getUserInfo } from '../../Redux/store';
 
-import { loginUser } from '../../utils/ApiRequests';
+import { loginUser } from '../../Api/ApiRequests';
 import { Button } from '@material-tailwind/react';
 
 const Login = () => {
@@ -113,8 +113,8 @@ export async function action({ request }) {
    const data = await request.formData();
 
    const credentials = {
-      email: data.get('email'),
-      password: data.get('password'),
+      email: data.get('email') || 'ownermail1@gmail.com',
+      password: data.get('password') || 'owner1234',
    };
 
    const res = await loginUser(credentials);

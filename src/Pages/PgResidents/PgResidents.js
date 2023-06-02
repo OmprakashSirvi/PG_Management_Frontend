@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react';
-import { getGuestsInPg } from '../../utils/ApiRequests';
+import { getGuestsInPg } from '../../Api/ApiRequests';
 import { json, useLoaderData } from 'react-router-dom';
 import { Typography } from '@material-tailwind/react';
 import UserList from '../../Components/UserList/UserList';

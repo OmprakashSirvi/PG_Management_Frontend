@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
    Form,
    json,
@@ -10,7 +10,7 @@ import {
    useNavigation,
 } from 'react-router-dom';
 
-import { createNewPg, editPg } from '../../utils/ApiRequests';
+import { createNewPg, editPg } from '../../Api/ApiRequests';
 
 const PgForm = ({ method, event }) => {
    const navigate = useNavigate();

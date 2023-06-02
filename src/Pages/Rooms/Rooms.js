@@ -2,7 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { json, useLoaderData } from 'react-router';
-import { getAllRoomsInPg } from '../../utils/ApiRequests';
+
+import { getAllRoomsInPg } from '../../Api/ApiRequests';
+
 import RoomList from '../../Components/RoomList/RoomList';
 import { Button, Typography } from '@material-tailwind/react';
 import RoomForm from '../../Components/RoomForm/RoomForm';
@@ -44,6 +46,12 @@ const Rooms = () => {
 
    return (
       <>
+         <div className="flex flex-row justify-between m-3">
+            <h1 className="m-2 text-xl">Rooms</h1>
+            <Button variant="outlined" onClick={handleRoomAdd} className="mb-4">
+               Add Room
+            </Button>
+         </div>
          {rooms.length === 0 && (
             <Typography variant="h4" className="m-4">
                No rooms currently here..
@@ -53,11 +61,7 @@ const Rooms = () => {
             return <RoomList key={index} room={room} />;
          })}
          <div className="flex flex-col items-center">
-            <Button variant="outlined" onClick={handleRoomAdd} className="mb-4">
-               Add Room
-            </Button>
-
-            {showForm && <RoomForm />}
+            {showForm && <RoomForm method={'POST'} />}
 
             <div className="flex">
                <Button

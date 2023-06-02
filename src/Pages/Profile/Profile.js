@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './Profile.css';
 import { Link } from 'react-router-dom';
 import { removeAuth } from '../../Redux/store';
-import { REACT_APP_API_URL } from '../../utils/ApiRequests';
+import { REACT_APP_API_URL } from '../../Api/ApiRequests';
 
 // If you are here then you are probably already logged in
 const Profile = () => {

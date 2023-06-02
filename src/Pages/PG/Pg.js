@@ -4,7 +4,7 @@ import React, { Suspense } from 'react';
 import { Await, defer, useLoaderData, json, Link } from 'react-router-dom';
 import { Button, Typography } from '@material-tailwind/react';
 
-import { getAllPgs, getPgForOwner } from '../../utils/ApiRequests';
+import { getAllPgs, getPgForOwner } from '../../Api/ApiRequests';
 import { Pause } from '../../utils/Pause';
 
 import './Pg.css';
@@ -42,6 +42,8 @@ const Pg = () => {
 };
 
 async function loadPgs(mode) {
+   const ENVIROMENT = process.env.NODE_ENV;
+   const ENABLE_DELAY = process.env.REACT_APP_ENABLE_DELAY;
    let res;
    switch (mode) {
       case 'admin':
@@ -54,7 +56,11 @@ async function loadPgs(mode) {
    }
 
    // TODO only for dev purpose
-   await Pause(2000);
+   console.log(ENABLE_DELAY);
+   if (ENVIROMENT === 'development' && ENABLE_DELAY === true) {
+      console.log('This is dev envirnoment and deleay is enabled');
+      await Pause(2000);
+   }
 
    if (!res) {
       throw json({ message: 'could not fetch pg' }, { status: 500 });

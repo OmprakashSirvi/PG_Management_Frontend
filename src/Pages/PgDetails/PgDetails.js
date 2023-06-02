@@ -1,6 +1,6 @@
 /** @format */
 import React, { useEffect, useState } from 'react';
-import { deleltePg, getPgById } from '../../utils/ApiRequests';
+import { deleltePg, getPgById } from '../../Api/ApiRequests';
 import {
    Link,
    json,
