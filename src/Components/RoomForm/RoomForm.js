@@ -53,7 +53,11 @@ export default function RoomForm({ room, method }) {
             >
                <div className="mb-4 flex flex-col gap-6">
                   <div className="w-auto">
-                     <Select label="Select Room Type" name="roomType">
+                     <Select
+                        label="Select Room Type"
+                        name="roomType"
+                        defaultValue={room?.roomType}
+                     >
                         <Option value="AC">Ac</Option>
                         <Option value="NON-AC">Non-Ac</Option>
                      </Select>
@@ -63,12 +67,14 @@ export default function RoomForm({ room, method }) {
                      type="number"
                      label="Room Rent"
                      name="roomRent"
+                     defaultValue={room?.roomRent}
                   />
                   <Input
                      type="number"
                      size="lg"
                      label="Room Sharing"
                      name="roomSharing"
+                     defaultValue={room?.roomSharing}
                   />
                </div>
                <Button
@@ -91,7 +97,6 @@ export async function action({ request, params }) {
    const method = request.method;
 
    const data = await request.formData();
-   console.log(data);
 
    const pgId = params.id;
 
@@ -101,8 +106,6 @@ export async function action({ request, params }) {
       roomSharing: data.get('roomSharing') * 1,
       roomType: data.get('roomType') || 'AC',
    };
-
-   console.log(room);
 
    if (room.roomSharing === 0) {
       return {
@@ -136,16 +139,14 @@ export async function action({ request, params }) {
       return { message: 'Select room type', status: 400, ok: false };
    }
 
-   console.log(room);
-
    let res;
 
    if (method === 'POST') {
       // await Pause(10000);
       res = await createRoom(room, pgId);
-
-      console.log(res);
    } else if (method === 'PATCH') {
+      console.log('this is patch request');
+
       return null;
    }
 

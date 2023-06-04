@@ -17,11 +17,10 @@ const RoomList = ({ room }) => {
    );
 
    function handleDelete() {
-      console.log('delete of : ', room);
       dispatch(deleteStateRoom(room.id));
    }
 
-   const content = <RoomForm room={room} method={'update'} />;
+   const content = <RoomForm room={room} method={'PATCH'} />;
 
    return (
       <div className="flex flex-row gap-2 w-full ">

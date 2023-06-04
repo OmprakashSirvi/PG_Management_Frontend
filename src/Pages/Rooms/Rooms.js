@@ -94,7 +94,6 @@ export async function loader({ params }) {
    const id = params.id;
 
    const res = await getAllRoomsInPg(id);
-   console.log('Getting rooms in pg');
 
    if (res.status === 401) {
       throw json({ message: res.message, status: 401 });

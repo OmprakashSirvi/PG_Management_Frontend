@@ -12,7 +12,6 @@ export const roomSlice = createSlice({
    },
    reducers: {
       setInitialState(state, action) {
-         console.log(action.payload);
          state.rooms = action.payload;
       },
       addRoom(state, action) {
@@ -53,7 +52,6 @@ export const roomSlice = createSlice({
       builder.addCase(deleteStateRoom.fulfilled, (state, action) => {
          state.isLoading = false;
 
-         console.log(action);
          state.rooms = state.rooms.filter((room) => room.id !== action.payload);
       });
       builder.addCase(deleteStateRoom.pending, (state) => {
