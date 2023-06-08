@@ -25,6 +25,7 @@ export default function FeatureCard({
             <img
                src={image}
                alt="img-blur-shadow"
+               loading="lazy"
                //    layout="fill"
             />
          </CardHeader>
@@ -36,7 +37,7 @@ export default function FeatureCard({
          </CardBody>
          <CardFooter className="pt-0">
             <Button>
-               <Link to="/pg">{buttonName}</Link>
+               <Link to={buttonLinkTo}>{buttonName}</Link>
             </Button>
          </CardFooter>
       </Card>

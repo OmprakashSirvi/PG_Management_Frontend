@@ -42,7 +42,9 @@ const Pg = () => {
 };
 
 async function loadPgs(mode) {
+   // eslint-disable-next-line no-undef
    const ENVIROMENT = process.env.NODE_ENV;
+   // eslint-disable-next-line no-undef
    const ENABLE_DELAY = process.env.REACT_APP_ENABLE_DELAY;
    let res;
    switch (mode) {
@@ -56,7 +58,6 @@ async function loadPgs(mode) {
    }
 
    // TODO only for dev purpose
-   console.log(ENABLE_DELAY);
    if (ENVIROMENT === 'development' && ENABLE_DELAY === true) {
       console.log('This is dev envirnoment and deleay is enabled');
       await Pause(2000);

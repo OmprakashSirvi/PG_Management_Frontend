@@ -1,148 +1,69 @@
 /** @format */
-import { store } from '../../Redux/store';
-
-const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
-const apiUrl = `${REACT_APP_API_URL}/api/v1`;
+import doFetch from '../doFetch';
 
 const getPgForOwner = async () => {
-   const jwt = store.getState().auth.jwt;
-   const token = 'Bearer ' + jwt;
-   if (jwt === '') {
-      return false;
-   }
-   try {
-      const res = await fetch(`${apiUrl}/owner/pg`, {
-         headers: { Authorization: token },
-      });
-      return res;
-   } catch (err) {
-      return false;
-   }
+   const res = doFetch({ endPath: 'owner/pg', withToken: true });
+
+   return res;
 };
 
 const createNewPg = async (pg) => {
-   try {
-      const jwt = store.getState().auth.jwt;
-      const token = 'Bearer ' + jwt;
-      if (jwt === '') {
-         return false;
-      }
-      const res = await fetch(`${apiUrl}/owner/pg`, {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'Application/json',
-            Authorization: token,
-         },
-         body: JSON.stringify(pg),
-      });
+   const res = await doFetch({
+      endPath: 'owner/pg',
+      withToken: true,
+      method: 'POST',
+      data: pg,
+   });
 
-      return res;
-   } catch (err) {
-      return false;
-   }
+   return res;
 };
 
 const editPg = async (pg, id) => {
-   try {
-      const jwt = store.getState().auth.jwt;
-      const token = 'Bearer ' + jwt;
-      if (jwt === '') {
-         return false;
-      }
+   const res = await doFetch({
+      endPath: `owner/pg/${id}`,
+      withToken: true,
+      method: 'PATCH',
+      data: pg,
+   });
 
-      const res = await fetch(`${apiUrl}/owner/pg/${id}`, {
-         method: 'PATCH',
-         headers: {
-            'Content-Type': 'Application/json',
-            Authorization: token,
-         },
-         body: JSON.stringify(pg),
-      });
-
-      return res;
-   } catch (err) {
-      return false;
-   }
+   return res;
 };
 
 const createRoom = async (room, pgId) => {
-   try {
-      const jwt = store.getState().auth.jwt;
-      const token = 'Bearer ' + jwt;
-      if (jwt === '') {
-         return false;
-      }
+   const res = await doFetch({
+      endPath: `owner/pg/${pgId}/room`,
+      withToken: true,
+      method: 'POST',
+      data: room,
+   });
 
-      const res = await fetch(`${apiUrl}/owner/pg/${pgId}/room`, {
-         method: 'POST',
-         headers: { Authorization: token, 'Content-Type': 'Application/json' },
-         body: JSON.stringify(room),
-      });
-
-      console.log(res);
-
-      return res;
-   } catch (err) {
-      return false;
-   }
+   return res;
 };
 
 const getGuestsInPg = async (id) => {
-   try {
-      const jwt = store.getState().auth.jwt;
-      const token = 'Bearer ' + jwt;
-      if (jwt === '') {
-         return false;
-      }
+   const res = doFetch({ endPath: `owner/pg/${id}/guests`, withToken: true });
 
-      const res = await fetch(`${apiUrl}/owner/pg/${id}/guests`, {
-         headers: { Authorization: token },
-      });
-
-      return res;
-   } catch (err) {
-      return false;
-   }
+   return res;
 };
 
 const deleltePg = async (id) => {
-   try {
-      const jwt = store.getState().auth.jwt;
-      const token = 'Bearer ' + jwt;
-      if (jwt === '') {
-         return false;
-      }
+   const res = await doFetch({
+      endPath: `owner/pg/${id}`,
+      withToken: true,
+      method: 'DELETE',
+   });
 
-      const res = await fetch(`${apiUrl}/pg/${id}`, {
-         method: 'DELETE',
-         headers: {
-            Authorization: token,
-         },
-      });
-
-      return res;
-   } catch (err) {
-      return false;
-   }
+   return res;
 };
 
 const deleteRoom = async (id) => {
-   try {
-      const jwt = store.getState().auth.jwt;
-      const token = 'Bearer ' + jwt;
-      if (jwt === '') {
-         return false;
-      }
+   const res = await doFetch({
+      endPath: `owner/room/${id}`,
+      withToken: true,
+      method: 'DELETE',
+   });
 
-      const res = await fetch(`${apiUrl}/owner/room/${id}`, {
-         method: 'DELETE',
-         headers: { Authorization: token },
-      });
-
-      return res;
-   } catch (err) {
-      return false;
-   }
+   return res;
 };
 
 export {

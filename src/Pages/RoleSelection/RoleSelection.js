@@ -1,20 +1,32 @@
 /** @format */
 
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Usercard from '../../Components/UserCard/UserCard';
 
 import './RoleSelection.css';
 import { Typography } from '@material-tailwind/react';
+import { getUserInfo } from '../../Redux/store';
 
 const RoleSelection = () => {
-   const { userInfo, error, selectedUserMode, jwt } = useSelector((state) => {
+   const dispatch = useDispatch();
+
+   const { userInfo, error } = useSelector((state) => {
       return state.auth;
    });
+
+   const jwt = localStorage.getItem('jwt');
+   const selectedUserModeRole = localStorage.getItem('selectedUserModeRole');
 
    if (jwt === '') {
       return <>You are not logged in</>;
    }
+
+   // Here is jwt is present but user info is not present
+   // Then we need to fetch the user info
+   useEffect(() => {
+      dispatch(getUserInfo());
+   }, []);
 
    if (error || (userInfo === undefined && userInfo.length === 0)) {
       return <>No user list present currently</>;
@@ -29,7 +41,7 @@ const RoleSelection = () => {
                   <Usercard
                      key={index}
                      user={user}
-                     selectedUserRole={selectedUserMode.role}
+                     selectedUserRole={selectedUserModeRole}
                   />
                );
             })}

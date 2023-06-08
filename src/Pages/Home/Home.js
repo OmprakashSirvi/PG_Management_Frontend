@@ -76,6 +76,9 @@ const Home = () => {
          <div className="m-4 p-4">
             <Typography variant="h2">Popular Cities</Typography>
          </div>
+         <Typography variant="h4" className="p-2 mb-4">
+            This is yet to be implemented
+         </Typography>
       </div>
    );
 };

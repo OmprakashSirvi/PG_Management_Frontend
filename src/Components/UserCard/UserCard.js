@@ -14,6 +14,7 @@ const Usercard = ({ user, selectedUserRole }) => {
 
    function handleActivateRole() {
       dispatch(setRole(user.role));
+      localStorage.setItem('selectedUserModeRole', user.role);
    }
 
    const header = (
