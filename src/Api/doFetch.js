@@ -41,6 +41,7 @@ const doFetch = async (options) => {
       return res;
       //
    } catch (err) {
+      console.log('There is some error in do fetch');
       return false;
    }
 };
