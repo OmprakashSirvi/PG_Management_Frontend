@@ -31,19 +31,74 @@ const doFetch = async (options) => {
       headers.Authorization = token;
    }
 
-   try {
-      const res = await fetch(`${apiUrl}/${endPath}`, {
+   let res = await fetch(`${apiUrl}/${endPath}`, {
+      headers,
+      method,
+      body: data ? JSON.stringify(data) : null,
+   });
+
+   console.log('doFetch res', res);
+
+   if (!res.ok && withToken) {
+      console.log('Seems like the jwt token has expired');
+      console.log('I need to refresh the token using refresh token');
+
+      // Get the refresh token from the store
+      const refreshToken = localStorage.getItem('refreshToken');
+
+      // If the refresh token is empty or null or undefined then return false
+      if (
+         refreshToken === '' ||
+         refreshToken === null ||
+         refreshToken === undefined
+      ) {
+         console.log("There is no refresh token in the store so can't refresh");
+         return false;
+      }
+
+      // Remove the authorization field from the header
+      headers.Authorization = '';
+
+      // Send the request to backend to refresh the token
+      const refreshRes = await fetch(`${apiUrl}/user/generateToken`, {
          headers,
+         method: 'POST',
+         body: JSON.stringify({ refreshToken }),
+      });
+
+      console.log(refreshRes);
+
+      // Now check if the refresh token is valid or not
+      if (!refreshRes.ok) {
+         console.log('The refresh token is invalid, or has been expired');
+         return false;
+      }
+
+      // If the refresh token is valid then get the new jwt and refresh token
+      const refreshResData = await refreshRes.json();
+
+      console.log('refreshResData', refreshResData);
+
+      // Store the new jwt and refresh token in the store
+      localStorage.setItem('jwt', refreshResData.jwt);
+      localStorage.setItem('refreshToken', refreshResData.refreshToken);
+
+      // Now send the request again with the new jwt token
+      res = await fetch(`${apiUrl}/${endPath}`, {
+         headers: {
+            ...headers,
+            Authorization: `Bearer ${refreshResData.jwt}`,
+         },
          method,
          body: data ? JSON.stringify(data) : null,
       });
 
-      return res;
-      //
-   } catch (err) {
-      console.log('There is some error in do fetch');
-      return false;
+      console.log('doFetch res', res);
    }
+
+   return res;
+
+   //
 };
 
 export default doFetch;

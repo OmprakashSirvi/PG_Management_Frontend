@@ -7,6 +7,7 @@ import Usercard from '../../Components/UserCard/UserCard';
 import './RoleSelection.css';
 import { Typography } from '@material-tailwind/react';
 import { getUserInfo } from '../../Redux/store';
+import { Link } from 'react-router-dom';
 
 const RoleSelection = () => {
    const dispatch = useDispatch();
@@ -28,7 +29,23 @@ const RoleSelection = () => {
       dispatch(getUserInfo());
    }, []);
 
-   if (error || (userInfo === undefined && userInfo.length === 0)) {
+   if (error) {
+      // remove the jwt from the localStorage
+      localStorage.removeItem('jwt');
+      // remove refresh token from the localStorage
+      localStorage.removeItem('refreshToken');
+      // remove the selected user mode from the localStorage
+      localStorage.removeItem('selectedUserModeRole');
+
+      return (
+         <>
+            You are not logged in to access this. Your tokens are invalid{' '}
+            <Link to={'/login'}>Login</Link>{' '}
+         </>
+      );
+   }
+
+   if (userInfo === undefined && userInfo.length === 0) {
       return <>No user list present currently</>;
    }
 

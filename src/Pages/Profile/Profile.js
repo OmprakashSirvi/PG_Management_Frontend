@@ -1,6 +1,6 @@
 /** @format */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@mui/material';
 import {
    Card,
@@ -12,8 +12,8 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 import './Profile.css';
-import { Link } from 'react-router-dom';
-import { removeAuth } from '../../Redux/store';
+import { Link, useNavigate } from 'react-router-dom';
+import { getUserInfo, removeAuth } from '../../Redux/store';
 import { REACT_APP_API_URL } from '../../Api/ApiRequests';
 
 // If you are here then you are probably already logged in
@@ -21,9 +21,17 @@ const Profile = () => {
    const API_URL = REACT_APP_API_URL;
 
    const dispatch = useDispatch();
+   const navigate = useNavigate();
    const auth = useSelector((state) => {
       return state.auth;
    });
+
+   // If the jwt is present but the user info is not present then we need to fetch the user info
+   useEffect(() => {
+      if (auth.jwt !== null || auth.jwt !== '') {
+         dispatch(getUserInfo());
+      }
+   }, []);
 
    let userInfo = { firstName: '', lastName: '', role: '', mobileNumber: '' };
 
@@ -52,6 +60,14 @@ const Profile = () => {
    }
    function handleLogoutClick() {
       dispatch(removeAuth());
+      // remove the jwt from the localStorage
+      // remove refresh token from the localStorage
+      localStorage.removeItem('jwt');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('selectedUserModeRole');
+
+      // redirect to home page
+      navigate('/');
    }
 
    // if (showDialog) {

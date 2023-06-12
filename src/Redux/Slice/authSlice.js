@@ -23,6 +23,7 @@ export const authSlice = createSlice({
          state.jwt = '';
          state.selectedUserMode = { role: '', email: '' };
          state.userInfo = [];
+         state.error = null;
       },
    },
    extraReducers(builder) {
@@ -33,9 +34,9 @@ export const authSlice = createSlice({
          state.isLoading = false;
          state.userInfo = action.payload;
          state.selectedUserMode.email = action.payload[0].email;
-         state.selectedUserMode.role = 'ROLE_GUEST';
       });
       builder.addCase(getUserInfo.rejected, (state, action) => {
+         console.log(action.error);
          state.isLoading = false;
          state.error = action.error;
       });

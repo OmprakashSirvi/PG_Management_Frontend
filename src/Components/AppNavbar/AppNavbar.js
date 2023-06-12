@@ -18,6 +18,7 @@ import './AppNavbar.css';
 import { NavLink } from 'react-router-dom';
 
 export default function AppNavbar({ login, role }) {
+   console.log('Current role is : ', role);
    const [isNavOpen, setIsNavOpen] = React.useState(false);
    const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
 

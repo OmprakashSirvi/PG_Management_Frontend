@@ -11,7 +11,7 @@ import {
 } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuth, getUserInfo } from '../../Redux/store';
+import { setAuth, getUserInfo, removeAuth } from '../../Redux/store';
 
 import { loginUser } from '../../Api/ApiRequests';
 import { Button, Typography } from '@material-tailwind/react';
@@ -29,7 +29,7 @@ const Login = () => {
    const isSubmitting = navigation.state === 'submitting';
 
    // get the isLoading, error and userInfo from the store
-   const { isLoading, error, userInfo } = useSelector((state) => {
+   const { isLoading, userInfo } = useSelector((state) => {
       return state.auth;
    });
 
@@ -37,6 +37,7 @@ const Login = () => {
       if (actionData?.jwt) {
          // get the jwt from the actionData
          const jwt = actionData.jwt;
+         dispatch(removeAuth());
 
          // dispatch the setAuth action with the jwt from the actionData
          dispatch(setAuth({ jwt }));
@@ -60,10 +61,6 @@ const Login = () => {
 
    if (isLoading || navigation.state === 'loading') {
       return <>Loading...</>;
-   }
-
-   if (error) {
-      return <>There was some error in loading user data</>;
    }
 
    return (
@@ -157,7 +154,7 @@ export async function action({ request }) {
 
    const res = await loginUser(credentials);
 
-   console.log('Inside login aciton : ', res);
+   console.log(res);
 
    if (!res) {
       throw json({ message: 'login fail', status: 500 });
@@ -168,8 +165,6 @@ export async function action({ request }) {
    }
 
    const resData = await res.json();
-
-   console.log(resData);
 
    localStorage.setItem('jwt', resData.jwt);
    localStorage.setItem('refreshToken', resData.refreshToken);
