@@ -4,22 +4,33 @@ import React, { Suspense } from 'react';
 import { Await, defer, useLoaderData, json, Link } from 'react-router-dom';
 import { Button, Typography } from '@material-tailwind/react';
 
-import { getAllPgs, getPgForOwner } from '../../Api/ApiRequests';
+import {
+   getAllPgs,
+   getAllPgsForAdmin,
+   getPgForOwner,
+} from '../../Api/ApiRequests';
 import { Pause } from '../../utils/Pause';
 
 import './Pg.css';
 import PgCard from '../../Components/PgCard/PgCard';
 import Skeleton from '../../Components/Skeleton/Skeleton';
+import { useSelector } from 'react-redux';
 
 const Pg = () => {
+   const auth = useSelector((state) => {
+      return state.auth;
+   });
+
    const { pgs } = useLoaderData();
 
    return (
       <React.Fragment>
          <Typography variant="h3">List of PGs</Typography>
-         <Button className="mb-6 mt-4 hover:bg-green-900" color="green">
-            <Link to={'add-pg'}>Add Pg</Link>
-         </Button>
+         {auth?.selectedUserMode?.role === 'ROLE_OWNER' && (
+            <Button className="mb-6 mt-4 hover:bg-green-900" color="green">
+               <Link to={'add-pg'}>Add Pg</Link>
+            </Button>
+         )}
          <Suspense
             fallback={
                <div className="grid-container">
@@ -49,6 +60,7 @@ async function loadPgs(mode) {
    let res;
    switch (mode) {
       case 'admin':
+         res = await getAllPgsForAdmin();
          break;
       case 'owner':
          res = await getPgForOwner();
@@ -64,7 +76,7 @@ async function loadPgs(mode) {
    }
 
    if (!res) {
-      throw json({ message: 'could not fetch pg' }, { status: 500 });
+      throw json({ message: 'could not fetch pg' }, { status: 403 });
    } else {
       const resData = await res.json();
       return resData.data;

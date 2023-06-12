@@ -13,7 +13,6 @@ import PgDetails, {
 } from '../Pages/PgDetails/PgDetails';
 
 import EditPg from '../Pages/EditPg/EditPg';
-import AddRoom from '../Pages/AddRoom/AddRoom';
 
 import AddPg from '../Pages/AddPg/AddPg';
 import Login, { action as loginAction } from '../Pages/Login/Login';

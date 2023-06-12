@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 
 import { createNewPg, editPg } from '../../Api/ApiRequests';
+import { Typography } from '@material-tailwind/react';
 
 const PgForm = ({ method, event }) => {
    const navigation = useNavigation();
@@ -24,7 +25,9 @@ const PgForm = ({ method, event }) => {
             style={{ padding: '20px 70px' }}
          >
             <Form method={method} className="form flex flex-col gap-2">
-               <p>{data && data.message}</p>
+               <Typography variant="h4" className="text-red-400">
+                  {data && data.error && data.message}
+               </Typography>
                <div>
                   <div className="flex flex-col gap-2">
                      <div className="flex gap-4">
@@ -76,8 +79,8 @@ const PgForm = ({ method, event }) => {
                         <div className="flex flex-col items-start gap-2 flex-1">
                            <label htmlFor="pg-type">PG Type</label>
                            <select
-                              name="pg-type"
-                              id="pg_type"
+                              name="pgType"
+                              id="pgType"
                               defaultValue={event ? event.pgType : ''}
                               className="shadow appearance-none border rounded  py-2 px-3 text-gray-700  leading-tight focus:outline-none focus:shadow-outline  w-full"
                            >
@@ -121,24 +124,55 @@ export async function action({ request, params }) {
 
    // BUG: pgType is null
    const newPg = {
-      name: data.get('name'),
-      gender: data.get('gender'),
-      address: data.get('address'),
-      city: data.get('city'),
-      pgType: data.get('pgType'),
+      name: data.get('name') || 'TestPg1',
+      gender: data.get('gender') || 'MALE',
+      address: data.get('address') || 'TEST ADDRESS',
+      city: data.get('city') || 'TEST CITY',
+      pgType: data.get('pgType') || 'Flat',
+      description: data.get('description') || 'Just a description',
    };
+
+   console.log('New Pg is ', newPg);
+
+   console.log('Method is ', method);
+
+   if (newPg.name === '' || newPg.name === null) {
+      return { message: 'Name is required', status: 400, error: true };
+   }
+
+   if (newPg.gender === '' || newPg.gender === null) {
+      return { message: 'Gender is required', status: 400, error: true };
+   }
+
+   if (newPg.address === '' || newPg.address === null) {
+      return { message: 'Address is required', status: 400, error: true };
+   }
+
+   if (newPg.city === '' || newPg.city === null) {
+      return { message: 'City is required', status: 400, error: true };
+   }
+
+   if (newPg.pgType === '' || newPg.pgType === null) {
+      return { message: 'PG Type is required', status: 400, error: true };
+   }
 
    let res;
 
    if (method === 'POST') {
+      console.log('Creating new Pg');
       res = await createNewPg(newPg);
    } else if (method === 'PATCH') {
       const id = params.id;
       res = await editPg(newPg, id);
    }
 
+   console.log(res);
+
    if (!res) {
-      throw json({ message: 'Not a valid method', status: 500 });
+      throw json({
+         message: 'You are unauthorized to access this, tokens are invalid',
+         status: 403,
+      });
    }
 
    if (!res.ok) {
@@ -149,7 +183,7 @@ export async function action({ request, params }) {
       return res;
    }
 
-   return redirect('/');
+   return { message: 'New Pg is created', status: 200, error: false };
 }
 
 export default PgForm;

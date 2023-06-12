@@ -1,9 +1,9 @@
 /** @format */
 
 import { Button } from '@material-tailwind/react';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, Outlet, useNavigate } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
 import { removeAuth } from '../Redux/store';
 
 const ProtectedRoutes = ({ role }) => {
@@ -19,21 +19,17 @@ const ProtectedRoutes = ({ role }) => {
    // If localStorage has no jwt then redirect to login page
    if (!jwt) {
       window.alert('You are not logged in');
-      navigate('/login');
+      window.location.href = '/login';
+      return;
    }
 
-   // All this action should take place one the component is loaded
-   useEffect(() => {
-      // Check if the store has user details
-   }, []);
-
    // The selected user mode is stored in localstorage
-   if (
+   else if (
       role !== undefined &&
       localStorage.getItem('selectedUserModeRole') !== role
    ) {
       window.alert('You do not have access');
-      navigate('/');
+      window.location.href = '/login';
    }
 
    function handleRouteToLogin() {

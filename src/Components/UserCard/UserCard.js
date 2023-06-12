@@ -21,7 +21,7 @@ const Usercard = ({ user, selectedUserRole }) => {
       <>
          {user.role === 'ROLE_OWNER'
             ? 'Owner'
-            : user.role === 'ROLE_ADIMN'
+            : user.role === 'ROLE_ADMIN'
             ? 'Admin'
             : 'Guest'}
          {user.role === selectedUserRole && (

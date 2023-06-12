@@ -16,19 +16,17 @@ import { Link } from 'react-router-dom';
 import './PgCard.css';
 
 const PgCard = ({ pg }) => {
+   // eslint-disable-next-line no-undef
    const apiUrl = process.env.REACT_APP_API_URL;
    const [elevated, setElevated] = useState(false);
-   let createdAt;
 
    useEffect(() => {
       if (pg.approved !== undefined) {
          setElevated(true);
-         createdAt = new Date(pg.createdAt);
       }
    }, []);
 
    if (elevated) {
-      console.log(pg);
       return (
          <Card className="w-96">
             <CardHeader color="blue" className="relative h-56">
@@ -45,7 +43,7 @@ const PgCard = ({ pg }) => {
                <Typography>{pg.foodType || 'all foods'}</Typography>
                <Typography>Gender : {pg.gender}</Typography>
                <Link to={`/pg/${pg.id}`}>
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-5">
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full m-3">
                      Get details here
                   </button>
                </Link>

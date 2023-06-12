@@ -44,6 +44,24 @@ const NavList = ({ role }) => {
             path: 'about-us',
          },
       ];
+   } else if (role === 'ROLE_ADMIN') {
+      navListItems = [
+         {
+            label: 'PG',
+            icon: HomeModernIcon,
+            path: 'pg',
+         },
+         {
+            label: 'Pg Requests',
+            icon: HomeModernIcon,
+            path: 'pg?mode=admin',
+         },
+         {
+            label: 'About Us',
+            icon: InformationCircleIcon,
+            path: 'about-us',
+         },
+      ];
    } else if (role === 'ROLE_GUEST' || role === '') {
       navListItems = [
          {

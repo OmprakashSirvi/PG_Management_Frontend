@@ -2,21 +2,24 @@
 import React, { useEffect, useState } from 'react';
 import { deleltePg, getPgById } from '../../Api/ApiRequests';
 import {
-   Link,
    json,
-   redirect,
+   useActionData,
    useRouteLoaderData,
    useSubmit,
 } from 'react-router-dom';
 import { Button } from '@material-tailwind/react';
 import { useSelector } from 'react-redux';
+import OwnerOptions from '../../Components/ButtonOptions/OwnerOptions';
+import AdminOptions from '../../Components/ButtonOptions/AdminOptions';
+import PgDetailCard from '../../Components/PgDetailCard/PgDetailCard';
 
 const PgDetails = () => {
-   // eslint-disable-next-line no-undef
-   const apiUrl = process.env.REACT_APP_API_URL;
    const submit = useSubmit();
+   const data = useActionData();
    const pgDetails = useRouteLoaderData('pg-detail');
+
    const [isOwner, setIsOwner] = useState(false);
+   const [isAdmin, setIsAdmin] = useState(false);
 
    const { jwt, selectedUserMode } = useSelector((state) => {
       return state.auth;
@@ -25,67 +28,44 @@ const PgDetails = () => {
    useEffect(() => {
       if (jwt !== '' && selectedUserMode.role === 'ROLE_OWNER') {
          setIsOwner(true);
+         setIsAdmin(false);
+      }
+      if (jwt !== '' && selectedUserMode.role === 'ROLE_ADMIN') {
+         setIsAdmin(true);
+         setIsOwner(false);
       }
    }, [selectedUserMode, jwt]);
 
+   if (data?.status === 201) {
+      return <>{data.message}</>;
+   }
+
    const handleBookPg = () => {};
+
    const handleDeletePg = () => {
       const confirm = window.confirm('Are you sure ?');
 
       if (!confirm) return;
 
+      // TODO there is a bug here
+      // If the owner is not the owner of a particular pg he can view Delete Pg button
+      // Add checks here and handle the errors accordingly
       submit(null, { method: 'DELETE' });
    };
 
    return (
       <div>
-         <img
-            src={`${apiUrl}/api/v1/images/pg/${pgDetails.image}`}
-            alt="pg-image"
-         />
-         <div>
-            <h1>Pg Details</h1>
-            <h3>Name : {pgDetails.name}</h3>
-            <p>Gender : {pgDetails.gender}</p>
-            <p>Address : {pgDetails.address}</p>
-            <p>city : {pgDetails.city}</p>
-            <p>maxRent : {pgDetails.maxRent}</p>
-            <p>minRent : {pgDetails.minRent}</p>
-            <p>description : {pgDetails.description}</p>
-            <p>pgType : {pgDetails.pgType}</p>
-            <p>amenitites : {pgDetails.amenitites}</p>
-            <p>availableBeds : {pgDetails.availableBeds}</p>
+         <PgDetailCard />
+         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 px-4 sm:px-0 m-4">
+            <Button onClick={handleBookPg}>Book Pg</Button>
+            {isOwner && <OwnerOptions handleDeletePg={handleDeletePg} />}
+            {isAdmin && <AdminOptions />}
          </div>
-         <div>
-            <h1>Owner details</h1>
-            <img src={''} alt="user-image" />
-            <p>
-               Owner name : {pgDetails.owner.firstName}{' '}
-               {pgDetails.owner.lastName && pgDetails.owner.lastName}
-            </p>
-            <p>Owner mobile number : {pgDetails.owner.mobileNumber}</p>
-            <p>Owner email : {pgDetails.owner.email}</p>
-         </div>
-         <Button onClick={handleBookPg} className="m-2">
-            Book Pg
-         </Button>
-         {isOwner && (
-            <>
-               <Button className="m-2">
-                  <Link to="edit">Edit Pg</Link>
-               </Button>
-               <Button onClick={handleDeletePg} className="m-2">
-                  Delete Pg
-               </Button>
-               <Button className="m-2">
-                  <Link to="view-residents">View All Residents</Link>
-               </Button>
-            </>
-         )}
       </div>
    );
 };
 
+// TODO this loader can be shifted to PgDetailCard.js
 export async function loader({ params }) {
    const id = params.id;
    const res = await getPgById(id);
@@ -108,9 +88,9 @@ export async function action({ params }) {
          status: 500,
       });
 
-   if (!res.ok) throw json({ message: 'Could not delete pg', status: 500 });
+   if (!res.ok) throw json({ message: 'Could not delete pg', status: 403 });
 
-   return redirect('/');
+   return { message: 'Pg deleted successfully', status: 201 };
 }
 
 export default PgDetails;
