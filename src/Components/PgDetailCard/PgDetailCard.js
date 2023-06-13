@@ -1,6 +1,5 @@
 /** @format */
 import React from 'react';
-import { useRouteLoaderData } from 'react-router-dom';
 
 function PgDetailCard({ pgDetails }) {
    // eslint-disable-next-line no-undef

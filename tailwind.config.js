@@ -40,5 +40,12 @@ export default withMT({
          },
       },
    },
+   variants: {
+      extend: {
+         opacity: ['responsive', 'hover', 'focus', 'group-hover'],
+         scale: ['responsive', 'hover', 'focus', 'group-hover'],
+         transform: ['responsive', 'hover', 'focus', 'group-hover'],
+      },
+   },
    plugins: [],
 });

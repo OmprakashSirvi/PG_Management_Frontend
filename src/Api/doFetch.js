@@ -37,7 +37,6 @@ const doFetch = async (options) => {
 
    // If the type is image then append the image to the formData
    if (type === 'image') {
-      console.log('There is a image here..');
       formData.append('image', data);
       delete headers['Content-Type'];
    }
@@ -46,15 +45,11 @@ const doFetch = async (options) => {
    // else set it to application/json
    const reqBody = type === 'image' ? formData : JSON.stringify(data);
 
-   console.log(reqBody);
-
    let res = await fetch(`${apiUrl}/${endPath}`, {
       headers,
       method,
       body: data ? reqBody : null,
    });
-
-   console.log('doFetch res', res);
 
    if (!res.ok && withToken) {
       console.log('Seems like the jwt token has expired');

@@ -35,27 +35,29 @@ const PgDetails = () => {
          dispatch(getUserInfo());
       }
 
-      if (jwt !== '' && selectedUserMode.role === 'ROLE_OWNER') {
-         setIsOwner(true);
-         setIsAdmin(false);
-         setShowBook(false);
-      }
+      // If the user is admin then he can't book any pg
       if (jwt !== '' && selectedUserMode.role === 'ROLE_ADMIN') {
          setIsAdmin(true);
          setIsOwner(false);
          setShowBook(false);
       }
 
+      console.log(userInfo[0].email);
+      console.log(pgDetails.owner.email);
+
+      // If the user is owner then he can't book his own pg
       if (
          userInfo &&
          userInfo.length !== 0 &&
-         userInfo[0].email !== pgDetails.owner.email
+         userInfo[0].email === pgDetails.owner.email
       ) {
-         setIsOwner(false);
+         console.log("I'm here");
+         setIsOwner(true);
          setIsAdmin(false);
          setShowBook(false);
       }
 
+      // If the user is guest then he can book any pg
       if (selectedUserMode.role === 'ROLE_GUEST') {
          setIsOwner(false);
          setIsAdmin(false);

@@ -16,6 +16,13 @@ const ProtectedRoutes = ({ role }) => {
       return state.auth;
    });
 
+   useEffect(() => {
+      if (jwt && auth?.userInfo?.length === 0) {
+         console.log('Getting user info inside protected route');
+         dispatch(getUserInfo());
+      }
+   }, []);
+
    // If localStorage has no jwt then redirect to login page
    if (!jwt) {
       window.alert('You are not logged in');

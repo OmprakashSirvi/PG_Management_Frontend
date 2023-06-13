@@ -68,11 +68,22 @@ const deleteRoom = async (id) => {
 
 const addPgImage = async (id, image) => {
    const res = await doFetch({
-      endPath: `owner/pg/${id}/add-image`,
+      endPath: `owner/pg/${id}/image`,
       withToken: true,
       method: 'PATCH',
       data: image,
       type: 'image',
+   });
+
+   return res;
+};
+
+const deletePgImage = async (id, image) => {
+   const res = await doFetch({
+      endPath: `owner/pg/${id}/image`,
+      withToken: true,
+      method: 'DELETE',
+      data: image,
    });
 
    return res;
@@ -87,4 +98,5 @@ export {
    getGuestsInPg,
    deleteRoom,
    addPgImage,
+   deletePgImage,
 };

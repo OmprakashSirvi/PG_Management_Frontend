@@ -156,6 +156,7 @@ export async function action({ request, params }) {
       console.log('Creating new Pg');
       res = await createNewPg(newPg);
    } else if (method === 'PATCH') {
+      console.log('Updating Pg');
       const id = params.id;
       res = await editPg(newPg, id);
    }
