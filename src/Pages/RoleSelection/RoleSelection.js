@@ -16,8 +16,6 @@ const RoleSelection = () => {
       return state.auth;
    });
 
-   console.log('Userinfo from role selection', userInfo);
-
    const jwt = localStorage.getItem('jwt');
    const selectedUserModeRole = localStorage.getItem('selectedUserModeRole');
 

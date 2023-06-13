@@ -1,10 +1,10 @@
 /** @format */
 
 import { Button } from '@material-tailwind/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router';
-import { removeAuth } from '../Redux/store';
+import { getUserInfo, removeAuth } from '../Redux/store';
 
 const ProtectedRoutes = ({ role }) => {
    const navigate = useNavigate();

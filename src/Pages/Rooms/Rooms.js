@@ -32,8 +32,6 @@ const Rooms = () => {
    });
 
    useEffect(() => {
-      console.log(rooms.length);
-
       setShowForm(false);
    }, [rooms.length]);
 

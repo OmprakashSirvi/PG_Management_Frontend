@@ -1,13 +1,7 @@
 /** @format */
 
 import React from 'react';
-import {
-   Form,
-   json,
-   redirect,
-   useActionData,
-   useNavigation,
-} from 'react-router-dom';
+import { Form, json, useActionData, useNavigation } from 'react-router-dom';
 
 import { createNewPg, editPg } from '../../Api/ApiRequests';
 import { Typography } from '@material-tailwind/react';

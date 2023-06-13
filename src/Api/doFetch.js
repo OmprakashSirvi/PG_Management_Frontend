@@ -9,6 +9,7 @@ const doFetch = async (options) => {
    const withToken = options.withToken || false;
    const method = options.method || 'GET';
    const data = options.data || null;
+   const type = options.type || 'json';
 
    // Declare a headers object
    let headers = {
@@ -31,10 +32,26 @@ const doFetch = async (options) => {
       headers.Authorization = token;
    }
 
+   // Create a formData object
+   const formData = new FormData();
+
+   // If the type is image then append the image to the formData
+   if (type === 'image') {
+      console.log('There is a image here..');
+      formData.append('image', data);
+      delete headers['Content-Type'];
+   }
+
+   // If the type is image then set the content type to multipart/form-data
+   // else set it to application/json
+   const reqBody = type === 'image' ? formData : JSON.stringify(data);
+
+   console.log(reqBody);
+
    let res = await fetch(`${apiUrl}/${endPath}`, {
       headers,
       method,
-      body: data ? JSON.stringify(data) : null,
+      body: data ? reqBody : null,
    });
 
    console.log('doFetch res', res);
@@ -58,6 +75,7 @@ const doFetch = async (options) => {
 
       // Remove the authorization field from the header
       headers.Authorization = '';
+      headers['Content-Type'] = 'Application/json';
 
       // Send the request to backend to refresh the token
       const refreshRes = await fetch(`${apiUrl}/user/generateToken`, {
@@ -83,6 +101,10 @@ const doFetch = async (options) => {
       localStorage.setItem('jwt', refreshResData.jwt);
       localStorage.setItem('refreshToken', refreshResData.refreshToken);
 
+      if (type === 'image') {
+         delete headers['Content-Type'];
+      }
+
       // Now send the request again with the new jwt token
       res = await fetch(`${apiUrl}/${endPath}`, {
          headers: {
@@ -90,7 +112,7 @@ const doFetch = async (options) => {
             Authorization: `Bearer ${refreshResData.jwt}`,
          },
          method,
-         body: data ? JSON.stringify(data) : null,
+         body: data ? reqBody : null,
       });
 
       console.log('doFetch res', res);

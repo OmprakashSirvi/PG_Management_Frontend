@@ -2,11 +2,9 @@
 import React from 'react';
 import { useRouteLoaderData } from 'react-router-dom';
 
-function PgDetailCard() {
+function PgDetailCard({ pgDetails }) {
    // eslint-disable-next-line no-undef
    const apiUrl = process.env.REACT_APP_API_URL;
-
-   const pgDetails = useRouteLoaderData('pg-detail');
 
    return (
       <>
