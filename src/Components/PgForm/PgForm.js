@@ -5,6 +5,7 @@ import { Form, json, useActionData, useNavigation } from 'react-router-dom';
 
 import { createNewPg, editPg } from '../../Api/ApiRequests';
 import { Typography } from '@material-tailwind/react';
+import { store } from '../../Redux/store';
 
 const PgForm = ({ method, event }) => {
    const navigation = useNavigation();
@@ -90,6 +91,7 @@ const PgForm = ({ method, event }) => {
                            id="description"
                            className="shadow appearance-none border  rounded  py-2 px-3 text-gray-700  leading-tight focus:outline-none focus:shadow-outline w-full"
                            name="description"
+                           defaultValue={event ? event.description : ''}
                         />
                      </div>
                   </div>
@@ -116,6 +118,7 @@ export async function action({ request, params }) {
    const method = request.method;
    const data = await request.formData();
 
+   const state = store.getState();
    // BUG: pgType is null
    const newPg = {
       name: data.get('name') || 'TestPg1',
@@ -158,6 +161,9 @@ export async function action({ request, params }) {
    } else if (method === 'PATCH') {
       console.log('Updating Pg');
       const id = params.id;
+      newPg.owner = {};
+      newPg.owner.id = state.auth.userInfo[0].id;
+
       res = await editPg(newPg, id);
    }
 
@@ -176,6 +182,10 @@ export async function action({ request, params }) {
 
    if (res.status === 400) {
       return res;
+   }
+
+   if (method === 'PATCH') {
+      return { message: 'Pg Updated', status: 200, error: false };
    }
 
    return { message: 'New Pg is created', status: 200, error: false };
