@@ -3,7 +3,7 @@
 import { Typography } from '@material-tailwind/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import FeatureCard from '../../Components/FeatureCard/FeatureCard';
+import FeatureCard from '../../Components/Card/FeatureCard/FeatureCard';
 import './Home.css';
 
 const Home = () => {

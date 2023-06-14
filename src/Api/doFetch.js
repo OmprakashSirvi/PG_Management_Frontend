@@ -1,7 +1,16 @@
 /** @format */
 
+import { Pause } from '../utils/Pause';
+
 // eslint-disable-next-line no-undef
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
+// eslint-disable-next-line no-undef
+const NODE_ENV = process.env.NODE_ENV;
+// eslint-disable-next-line no-undef
+const REACT_APP_ENABLE_DELAY = process.env.REACT_APP_ENABLE_DELAY;
+// eslint-disable-next-line no-undef
+const REACT_APP_DELAY_TIME = process.env.REACT_APP_DELAY_TIME;
+
 const apiUrl = `${REACT_APP_API_URL}/api/v1`;
 
 const doFetch = async (options) => {
@@ -15,6 +24,11 @@ const doFetch = async (options) => {
    let headers = {
       'Content-Type': 'Application/json',
    };
+
+   if (NODE_ENV === 'development' && REACT_APP_ENABLE_DELAY === 'true') {
+      console.log('There is delay enabled');
+      await Pause(REACT_APP_DELAY_TIME);
+   }
 
    if (withToken) {
       // Get the jwtToken from the store

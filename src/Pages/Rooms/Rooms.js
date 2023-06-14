@@ -61,11 +61,7 @@ const Rooms = () => {
          <div className="flex justify-center items-center flex-col">
             {/* If there are rooms the show rooms */}
             {rooms.map((room, index) => {
-               return (
-                  <>
-                     <RoomList key={index} room={room} />
-                  </>
-               );
+               return <RoomList key={index} room={room} elevated={true} />;
             })}
          </div>
          {/* If showForm is true then show form */}

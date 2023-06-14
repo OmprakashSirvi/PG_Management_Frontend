@@ -9,10 +9,9 @@ import {
    getAllPgsForAdmin,
    getPgForOwner,
 } from '../../Api/ApiRequests';
-import { Pause } from '../../utils/Pause';
 
 import './Pg.css';
-import PgCard from '../../Components/PgCard/PgCard';
+import PgCard from '../../Components/Card/PgCard/PgCard';
 import Skeleton from '../../Components/Skeleton/Skeleton';
 import { useSelector } from 'react-redux';
 
@@ -40,11 +39,18 @@ const Pg = () => {
          >
             <Await resolve={pgs}>
                {(loadedPgs) => (
-                  <div className="grid-container">
-                     {loadedPgs.map((pg, index) => {
-                        return <PgCard key={index} pg={pg} />;
-                     })}
-                  </div>
+                  <>
+                     {loadedPgs && loadedPgs.length === 0 && (
+                        <Typography variant="h5" className="m-4">
+                           No PGs found
+                        </Typography>
+                     )}
+                     <div className="grid-container">
+                        {loadedPgs.map((pg, index) => {
+                           return <PgCard key={index} pg={pg} />;
+                        })}
+                     </div>
+                  </>
                )}
             </Await>
          </Suspense>
@@ -53,10 +59,6 @@ const Pg = () => {
 };
 
 async function loadPgs(mode) {
-   // eslint-disable-next-line no-undef
-   const ENVIROMENT = process.env.NODE_ENV;
-   // eslint-disable-next-line no-undef
-   const ENABLE_DELAY = process.env.REACT_APP_ENABLE_DELAY;
    let res;
    switch (mode) {
       case 'admin':
@@ -67,12 +69,6 @@ async function loadPgs(mode) {
          break;
       default:
          res = await getAllPgs();
-   }
-
-   // TODO only for dev purpose
-   if (ENVIROMENT === 'development' && ENABLE_DELAY === true) {
-      console.log('This is dev envirnoment and deleay is enabled');
-      await Pause(2000);
    }
 
    if (!res) {

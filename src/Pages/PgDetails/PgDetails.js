@@ -12,7 +12,7 @@ import { Button, Typography } from '@material-tailwind/react';
 import { useDispatch, useSelector } from 'react-redux';
 import OwnerOptions from '../../Components/ButtonOptions/OwnerOptions';
 import AdminOptions from '../../Components/ButtonOptions/AdminOptions';
-import PgDetailCard from '../../Components/PgDetailCard/PgDetailCard';
+import PgDetailCard from '../../Components/Card/PgDetailCard/PgDetailCard';
 import { getUserInfo } from '../../Redux/store';
 
 const PgDetails = () => {
@@ -42,16 +42,12 @@ const PgDetails = () => {
          setShowBook(false);
       }
 
-      console.log(userInfo[0].email);
-      console.log(pgDetails.owner.email);
-
       // If the user is owner then he can't book his own pg
       if (
          userInfo &&
          userInfo.length !== 0 &&
          userInfo[0].email === pgDetails.owner.email
       ) {
-         console.log("I'm here");
          setIsOwner(true);
          setIsAdmin(false);
          setShowBook(false);
@@ -95,7 +91,11 @@ const PgDetails = () => {
       <div>
          <PgDetailCard pgDetails={pgDetails} />
          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 px-4 sm:px-0 m-4">
-            {showBook && <Button onClick={handleBookPg}>Book Pg</Button>}
+            {showBook && (
+               <Button>
+                  <Link to={'select-room'}>Book Pg</Link>
+               </Button>
+            )}
             {/* Need to check if the Current owner is the actual owner of the pg */}
             {/* I have my state, and I have my PgDetails */}
             {isOwner && <OwnerOptions handleDeletePg={handleDeletePg} />}

@@ -49,6 +49,15 @@ const getAllRoomsInPg = async (id) => {
    return res;
 };
 
+const getAllBedsInRoom = async (id) => {
+   const res = await doFetch({
+      endPath: `room/${id}/bed/`,
+      withToken: true,
+   });
+
+   return res;
+};
+
 export {
    loginUser,
    registerUser,
@@ -56,6 +65,7 @@ export {
    getPgById,
    getMe,
    getAllRoomsInPg,
+   getAllBedsInRoom,
 };
 
 export * from './Owner/OwnerRequests.js';

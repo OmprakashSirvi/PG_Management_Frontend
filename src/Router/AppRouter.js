@@ -30,6 +30,10 @@ import Residents from '../Pages/Residents/Residents';
 import Rooms, { loader as roomLoader } from '../Pages/Rooms/Rooms';
 import { action as manipulateRoom } from '../Components/RoomForm/RoomForm';
 import AddImage from '../Pages/AddImage/AddImage';
+import SelectRoom, {
+   loader as roomsLoader,
+} from '../Pages/SelectRoom/SelectRoom';
+import SelectBed, { loader as BedLoader } from '../Pages/SelectBed/SelectBed';
 
 export const AppRouter = createBrowserRouter([
    {
@@ -77,6 +81,21 @@ export const AppRouter = createBrowserRouter([
                         action: pgDeleteAction,
                      },
                      {
+                        element: <ProtectedRoutes role={'ROLE_GUEST'} />,
+                        children: [
+                           {
+                              path: 'select-room',
+                              element: <SelectRoom />,
+                              loader: roomsLoader,
+                           },
+                           {
+                              path: ':roomId/select-bed',
+                              element: <SelectBed />,
+                              loader: BedLoader,
+                           },
+                        ],
+                     },
+                     {
                         element: <ProtectedRoutes role={'ROLE_OWNER'} />,
                         children: [
                            {
@@ -84,6 +103,7 @@ export const AppRouter = createBrowserRouter([
                               element: <EditPg />,
                               action: manipulatePg,
                            },
+
                            {
                               path: 'rooms',
                               element: <Rooms />,
