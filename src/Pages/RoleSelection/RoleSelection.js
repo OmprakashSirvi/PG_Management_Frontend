@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Usercard from '../../Components/UserCard/UserCard';
+import Usercard from '../../Components/Card/UserCard/UserCard';
 
 import './RoleSelection.css';
 import { Typography } from '@material-tailwind/react';

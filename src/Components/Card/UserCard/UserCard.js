@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { Button, Typography } from '@material-tailwind/react';
-import ExpandablePanel from '../ExpandablePanel/ExpandablePanel';
+import ExpandablePanel from '../../ExpandablePanel/ExpandablePanel';
 import { useDispatch } from 'react-redux';
-import { setRole } from '../../Redux/store';
+import { setRole } from '../../../Redux/store';
 
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 
