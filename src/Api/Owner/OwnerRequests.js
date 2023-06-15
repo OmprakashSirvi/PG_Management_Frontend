@@ -40,6 +40,17 @@ const createRoom = async (room, pgId) => {
    return res;
 };
 
+const editRoom = async (room, id) => {
+   const res = await doFetch({
+      endPath: `owner/room/${id}`,
+      withToken: true,
+      method: 'PATCH',
+      data: room,
+   });
+
+   return res;
+};
+
 const getGuestsInPg = async (id) => {
    const res = doFetch({ endPath: `owner/pg/${id}/guests`, withToken: true });
 
@@ -94,6 +105,7 @@ export {
    createNewPg,
    editPg,
    createRoom,
+   editRoom,
    deleltePg,
    getGuestsInPg,
    deleteRoom,
