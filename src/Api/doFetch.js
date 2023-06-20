@@ -71,6 +71,7 @@ const doFetch = async (options) => {
 
       // Get the refresh token from the store
       const refreshToken = localStorage.getItem('refreshToken');
+      console.log(refreshToken);
 
       // If the refresh token is empty or null or undefined then return false
       if (

@@ -18,7 +18,6 @@ const ProtectedRoutes = ({ role }) => {
 
    useEffect(() => {
       if (jwt && auth?.userInfo?.length === 0) {
-         console.log('Getting user info inside protected route');
          dispatch(getUserInfo());
       }
    }, []);
@@ -54,6 +53,7 @@ const ProtectedRoutes = ({ role }) => {
    }
 
    if (auth.error) {
+      console.log(auth?.error);
       return (
          <>
             There is some error in state, you need to login again{' '}

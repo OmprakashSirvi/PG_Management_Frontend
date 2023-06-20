@@ -33,7 +33,10 @@ import AddImage from '../Pages/AddImage/AddImage';
 import SelectRoom, {
    loader as roomsLoader,
 } from '../Pages/SelectRoom/SelectRoom';
-import SelectBed, { loader as BedLoader } from '../Pages/SelectBed/SelectBed';
+import SelectBed, {
+   loader as BedLoader,
+   action as BedAction,
+} from '../Pages/SelectBed/SelectBed';
 
 export const AppRouter = createBrowserRouter([
    {
@@ -92,6 +95,7 @@ export const AppRouter = createBrowserRouter([
                               path: ':roomId/select-bed',
                               element: <SelectBed />,
                               loader: BedLoader,
+                              action: BedAction,
                            },
                         ],
                      },

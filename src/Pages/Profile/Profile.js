@@ -14,11 +14,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import './Profile.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { getUserInfo, removeAuth } from '../../Redux/store';
-import { REACT_APP_API_URL } from '../../Api/ApiRequests';
 
 // If you are here then you are probably already logged in
 const Profile = () => {
-   const API_URL = REACT_APP_API_URL;
+   // eslint-disable-next-line no-undef
+   const API_URL = process.env.REACT_APP_API_URL;
 
    const dispatch = useDispatch();
    const navigate = useNavigate();

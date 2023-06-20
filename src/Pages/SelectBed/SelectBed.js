@@ -1,15 +1,35 @@
 /** @format */
 
 import React, { Suspense } from 'react';
-import { Await, defer, json, useLoaderData } from 'react-router-dom';
+import {
+   Await,
+   defer,
+   json,
+   useActionData,
+   useLoaderData,
+   useSubmit,
+} from 'react-router-dom';
 import Skeleton from '../../Components/Skeleton/Skeleton';
 
-import { getAllBedsInRoom } from '../../Api/ApiRequests.js';
+import { getAllBedsInRoom, rasieRequestForBed } from '../../Api/ApiRequests.js';
 import BedCard from '../../Components/Card/BedCard/BedCard';
 import { Typography } from '@material-tailwind/react';
 
 const SelectBed = () => {
    const { beds } = useLoaderData();
+   const actionData = useActionData();
+   const submit = useSubmit();
+
+   function handleRaiseRequest(event) {
+      let formData = new FormData();
+      formData.append('bedId', event.target.id);
+
+      submit(formData, { method: 'POST' });
+   }
+
+   if (actionData?.status === 500) {
+      window.alert(actionData?.message);
+   }
 
    return (
       <>
@@ -24,7 +44,10 @@ const SelectBed = () => {
                         {loadedBeds.map((bed, index) => {
                            return (
                               <div key={index}>
-                                 <BedCard bed={bed} />
+                                 <BedCard
+                                    bed={bed}
+                                    handleRaiseRequest={handleRaiseRequest}
+                                 />
                               </div>
                            );
                         })}
@@ -43,15 +66,12 @@ async function bedLoader(id) {
    // await Pause(400000);
 
    const res = await getAllBedsInRoom(id);
-   console.log(res);
 
    if (!res || !res.ok) {
       throw json({ message: 'Not able to fetch beds ', status: 500 });
    }
 
    const resData = await res.json();
-
-   console.log(resData);
 
    return resData;
 }
@@ -60,6 +80,22 @@ export async function loader({ params }) {
    const id = params.roomId;
 
    return defer({ beds: bedLoader(id) });
+}
+
+export async function action({ request }) {
+   const data = await request.formData();
+
+   const res = await rasieRequestForBed(data.get('bedId'));
+
+   if (!res || !res.ok) {
+      return { message: 'Not able to raise request for bed', status: 500 };
+   }
+
+   const resData = await res.json();
+
+   console.log(resData);
+
+   return { message: resData.message, status: 200, data: resData.data };
 }
 
 export default SelectBed;

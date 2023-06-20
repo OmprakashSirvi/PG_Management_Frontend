@@ -37,7 +37,6 @@ const SelectRoom = () => {
 };
 
 async function roomLoader(id) {
-   await Pause(1000);
    const res = await getAllRoomsInPg(id);
 
    if (res.status === 401) {
