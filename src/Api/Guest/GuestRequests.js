@@ -4,7 +4,7 @@ import doFetch from '../doFetch';
 
 const rasieRequestForBed = (bedId) => {
    const res = doFetch({
-      endPath: `bed/${bedId}`,
+      endPath: `request/bed/${bedId}`,
       withToken: true,
       method: 'POST',
    });
@@ -12,4 +12,14 @@ const rasieRequestForBed = (bedId) => {
    return res;
 };
 
-export { rasieRequestForBed };
+const getAllBedRequests = () => {
+   const res = doFetch({
+      endPath: `user/requests`,
+      withToken: true,
+      method: 'GET',
+   });
+
+   return res;
+};
+
+export { rasieRequestForBed, getAllBedRequests };

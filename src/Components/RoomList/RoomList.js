@@ -21,10 +21,11 @@ const RoomList = ({ room, elevated }) => {
       dispatch(deleteStateRoom(room.id));
    }
 
+   // if content is elevated then show form else show buttons
    const content = elevated ? (
       <RoomForm room={room} method={'PATCH'} />
    ) : (
-      <>
+      <div className="flex flex-row justify-center gap-4">
          <Link to={`../${room.id}/select-bed`}>
             <Button
                className="border-gray-900 bg-gray-800 text-white hover:bg-gray-900"
@@ -33,7 +34,15 @@ const RoomList = ({ room, elevated }) => {
                View Beds
             </Button>
          </Link>
-      </>
+         <Link to={`../${room.id}/select-bed?mode=all`}>
+            <Button
+               className="border-gray-900 bg-gray-800 text-white hover:bg-gray-900"
+               variant="filled"
+            >
+               Book Room
+            </Button>
+         </Link>
+      </div>
    );
 
    return (

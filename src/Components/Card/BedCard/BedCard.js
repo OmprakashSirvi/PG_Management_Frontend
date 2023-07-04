@@ -5,7 +5,7 @@ import { FaBed } from 'react-icons/fa';
 import { Button, Typography } from '@material-tailwind/react';
 import { useActionData } from 'react-router-dom';
 
-const BedCard = ({ bed, handleRaiseRequest }) => {
+const BedCard = ({ bed, handleRaiseRequest, bedRequestIds, raisable }) => {
    const [showButton, setShowButton] = useState(false);
    const [raised, setRaised] = useState(false);
    const user = undefined;
@@ -18,6 +18,8 @@ const BedCard = ({ bed, handleRaiseRequest }) => {
    useEffect(() => {
       if (actionData?.status === 200 && bed.id === actionData?.data) {
          setRaised(true);
+      } else if (bedRequestIds?.includes(bed.id)) {
+         setRaised(true);
       } else {
          setRaised(false);
       }
@@ -28,7 +30,7 @@ const BedCard = ({ bed, handleRaiseRequest }) => {
          <div className="cursor-pointer" onClick={handleClick}>
             <FaBed className="h-10 w-10 hover:h-12 hover:w-12" />
          </div>
-         {showButton && !raised && (
+         {raisable && showButton && !raised && (
             <Button
                className="border-gray-900 bg-gray-800 text-white hover:bg-gray-900"
                id={bed.id}
@@ -38,7 +40,7 @@ const BedCard = ({ bed, handleRaiseRequest }) => {
                Raise Request
             </Button>
          )}
-         {showButton && raised && (
+         {raisable && showButton && raised && (
             <Typography className="text-green-500">Request Raised</Typography>
          )}
          {user && (

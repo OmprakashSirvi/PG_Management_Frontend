@@ -2,11 +2,11 @@
 
 import React, { Suspense } from 'react';
 import { getAllRoomsInPg } from '../../Api/ApiRequests';
-import { Await, defer, json, useLoaderData } from 'react-router-dom';
+import { Await, Link, defer, json, useLoaderData } from 'react-router-dom';
 import Skeleton from '../../Components/Skeleton/Skeleton';
 import { Pause } from '../../utils/Pause';
 import RoomList from '../../Components/RoomList/RoomList';
-import { Typography } from '@material-tailwind/react';
+import { Button, Typography } from '@material-tailwind/react';
 
 const SelectRoom = () => {
    const { rooms } = useLoaderData();
@@ -32,6 +32,9 @@ const SelectRoom = () => {
                )}
             </Await>
          </Suspense>
+         <Link>
+            <Button>Book All Rooms</Button>
+         </Link>
       </>
    );
 };

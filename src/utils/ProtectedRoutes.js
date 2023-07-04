@@ -17,7 +17,7 @@ const ProtectedRoutes = ({ role }) => {
    });
 
    useEffect(() => {
-      if (jwt && auth?.userInfo?.length === 0) {
+      if (jwt && auth?.userInfo?.length === 0 && auth?.loading === false) {
          dispatch(getUserInfo());
       }
    }, []);

@@ -129,6 +129,7 @@ const Login = () => {
 };
 
 export async function action({ request }) {
+   console.log('Action is called in login');
    const data = await request.formData();
 
    const credentials = {
@@ -152,9 +153,8 @@ export async function action({ request }) {
       };
    }
 
+   console.log('Sending request to server');
    const res = await loginUser(credentials);
-
-   console.log(res);
 
    if (!res) {
       throw json({ message: 'login fail', status: 500 });

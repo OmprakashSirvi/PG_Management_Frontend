@@ -14,6 +14,7 @@ import './Pg.css';
 import PgCard from '../../Components/Card/PgCard/PgCard';
 import Skeleton from '../../Components/Skeleton/Skeleton';
 import { useSelector } from 'react-redux';
+import Search from '../../Components/Search/Search';
 
 const Pg = () => {
    const auth = useSelector((state) => {
@@ -30,6 +31,9 @@ const Pg = () => {
                <Link to={'add-pg'}>Add Pg</Link>
             </Button>
          )}
+         <div className="m-4">
+            <Search />
+         </div>
          <Suspense
             fallback={
                <div className="grid-container">
