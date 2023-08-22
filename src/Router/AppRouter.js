@@ -37,6 +37,9 @@ import SelectBed, {
    loader as BedLoader,
    action as BedAction,
 } from '../Pages/SelectBed/SelectBed';
+import BookingRequests, {
+   loader as BookingRequestLoader,
+} from '../Pages/BookingRequests/BookingRequests';
 
 export const AppRouter = createBrowserRouter([
    {
@@ -62,7 +65,14 @@ export const AppRouter = createBrowserRouter([
          },
          {
             element: <ProtectedRoutes role={'ROLE_OWNER'} />,
-            children: [{ path: 'residents', element: <Residents /> }],
+            children: [
+               { path: 'residents', element: <Residents /> },
+               {
+                  path: 'booking',
+                  element: <BookingRequests />,
+                  loader: BookingRequestLoader,
+               },
+            ],
          },
          {
             path: 'pg',

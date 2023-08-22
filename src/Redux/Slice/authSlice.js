@@ -36,7 +36,6 @@ export const authSlice = createSlice({
          state.selectedUserMode.email = action.payload[0].email;
       });
       builder.addCase(getUserInfo.rejected, (state, action) => {
-         console.log(action.error);
          state.isLoading = false;
          state.error = action.error;
       });

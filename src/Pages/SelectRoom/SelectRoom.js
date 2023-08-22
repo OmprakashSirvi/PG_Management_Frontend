@@ -13,6 +13,9 @@ const SelectRoom = () => {
 
    return (
       <>
+         <Button variant="gradient" color="green">
+            Book Entire Pg
+         </Button>
          <Typography variant="h4" className="m-4">
             Select your Rooms
          </Typography>
@@ -21,7 +24,9 @@ const SelectRoom = () => {
                {(loadedRooms) => (
                   <>
                      {loadedRooms && loadedRooms.length === 0 && (
-                        <>NO rooms here</>
+                        <Typography variant="h3" className="m-4">
+                           No rooms here
+                        </Typography>
                      )}
                      {loadedRooms.map((room, index) => {
                         return (
@@ -32,9 +37,6 @@ const SelectRoom = () => {
                )}
             </Await>
          </Suspense>
-         <Link>
-            <Button>Book All Rooms</Button>
-         </Link>
       </>
    );
 };

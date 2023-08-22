@@ -10,7 +10,7 @@ import { Button, Typography } from '@material-tailwind/react';
 import RoomForm from '../../Components/RoomForm/RoomForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { setInitialState } from '../../Redux/store';
-import { useSubmit } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Rooms = () => {
    const dispatch = useDispatch();
@@ -20,7 +20,6 @@ const Rooms = () => {
 
    // gets loaded rooms from loader from backend
    let loadedRooms = useLoaderData();
-   const submit = useSubmit();
 
    useEffect(() => {
       dispatch(setInitialState(loadedRooms));
@@ -37,11 +36,6 @@ const Rooms = () => {
 
    function handleRoomAdd() {
       setShowForm(true);
-   }
-
-   function handleSave(event) {
-      event.preventDefault();
-      submit(rooms, { method: 'POST' });
    }
 
    return (
@@ -69,15 +63,11 @@ const Rooms = () => {
             {showForm && <RoomForm method={'POST'} />}
 
             <div className="flex">
-               <Button
-                  variant="gradient"
-                  className="mr-2"
-                  type="submit"
-                  onClick={handleSave}
-               >
-                  Save
-               </Button>
-               <Button variant="text">Cancel</Button>
+               <Link to={'../'}>
+                  <Button variant="gradient" className="mr-2">
+                     Save
+                  </Button>
+               </Link>
             </div>
          </div>
       </div>

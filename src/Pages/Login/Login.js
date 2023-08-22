@@ -133,7 +133,7 @@ export async function action({ request }) {
    const data = await request.formData();
 
    const credentials = {
-      email: data.get('email') || 'ownermail1@gmail.com',
+      email: data.get('email') || 'ownermail2@gmail.com',
       password: data.get('password') || 'owner1234',
    };
 

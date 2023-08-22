@@ -100,6 +100,15 @@ const deletePgImage = async (id, image) => {
    return res;
 };
 
+const getAllBookingRequests = async () => {
+   const res = await doFetch({
+      endPath: 'owner/requests/',
+      withToken: true,
+   });
+
+   return res;
+};
+
 export {
    getPgForOwner,
    createNewPg,
@@ -111,4 +120,5 @@ export {
    deleteRoom,
    addPgImage,
    deletePgImage,
+   getAllBookingRequests,
 };

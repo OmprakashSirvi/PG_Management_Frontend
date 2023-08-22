@@ -34,9 +34,9 @@ const NavList = ({ role }) => {
             path: 'pg',
          },
          {
-            label: 'Residents',
+            label: 'Booking Requests',
             icon: UsersIcon,
-            path: 'residents',
+            path: 'booking',
          },
          {
             label: 'About Us',

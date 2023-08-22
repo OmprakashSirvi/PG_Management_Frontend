@@ -5,15 +5,14 @@ import { Button, Checkbox, Typography } from '@material-tailwind/react';
 import {
    Link,
    Form,
-   useActionData,
    json,
-   useNavigate,
+   useActionData,
    useNavigation,
+   useNavigate,
 } from 'react-router-dom';
 import { registerUser } from '../../Api/ApiRequests';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserInfo, setAuth } from '../../Redux/store';
-
 const UserForm = ({ method, event }) => {
    const data = useActionData();
    const dispatch = useDispatch();
@@ -27,12 +26,15 @@ const UserForm = ({ method, event }) => {
    });
 
    useEffect(() => {
-      if (data) {
-         if (data.status === 'Success') {
-            const jwt = data.jwt;
-            dispatch(setAuth({ jwt }));
-            dispatch(getUserInfo(jwt));
-         }
+      if (data?.status === 'Success' && isLoading === false) {
+         const jwt = data.jwt;
+         const refreshToken = data.refreshToken;
+
+         localStorage.setItem('jwt', jwt);
+         localStorage.setItem('refreshToken', refreshToken);
+
+         dispatch(setAuth({ jwt }));
+         dispatch(getUserInfo(jwt));
       }
    }, [data]);
 
@@ -208,12 +210,12 @@ export async function action({ request }) {
       roles,
    };
 
-   if (userData.password.length < 7) {
-      return { message: 'Password length should be atleast 7', error: true };
-   }
-
    if (userData.password !== data.get('confirmPassword')) {
       return { message: 'Passwords do not match', error: true };
+   }
+
+   if (userData.password.length < 7) {
+      return { message: 'Password length should be atleast 7', error: true };
    }
 
    if (userData.mobileNumber.length < 10) {
@@ -234,8 +236,6 @@ export async function action({ request }) {
    }
 
    const resData = await res.json();
-
-   console.log(resData);
 
    if (!res) {
       throw json({ title: 'Server side error' });
